@@ -1,0 +1,18 @@
+.headerBar{
+    height: 100%;
+    display: flex;
+    background-color: #5196A6;
+    align-items: center;
+    justify-content:flex-end;
+
+}
+.logIn{
+    align-items: center;
+    font-size: calc(3vmin);
+    margin-right: 8vh;
+}
+.user{
+    align-items: center;
+    font-size: calc(3vmin);
+    margin-right: 8vh;
+}

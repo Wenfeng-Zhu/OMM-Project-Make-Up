@@ -1,0 +1,39 @@
+.App {
+  /*text-align: center;*/
+  display: grid;
+  grid-template-columns: 20% auto 20%;
+}
+header{
+  background: lightpink;
+  grid-column: 1 / 4;
+  height: 5vh;
+}
+
+.left-sidebar {
+  grid-column: 1 / 2;
+}
+
+main {
+  margin-top: 10px;
+  display: grid;
+  grid-auto-flow: row;
+  grid-column: 2 / 3;
+  height: auto;
+}
+
+.right-sidebar {
+  grid-column: 3 / 4;
+}
+
+footer {
+  background: wheat;
+  padding: 1rem;
+  text-align: center;
+  grid-column: 1 / 4;
+}
+
+
+
+
+
+
