@@ -1,25 +1,30 @@
 .EditArea{
     display: grid;
-    grid-template-columns: 60% 40%;
-    height: 800px;
+    grid-template-columns: 50% 50%;
+
 }
 
 .imageArea{
     display: grid;
-    grid-template-rows: 15% 80% 5%;
+    grid-row-gap:5px;
+}
+img{
+    width: 100%;
 }
 
 .scrollBar{
     background: #5196A6;;
+    height: 100px;
 }
 
 .displayArea{
-    background: crimson;
+    /*background: crimson;*/
 }
 
 .buttonsArea{
     display: grid;
     grid-template-columns: 50% 50%;
+    height: 40px;
 }
 
 .inputArea{
