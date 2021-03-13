@@ -17,13 +17,7 @@ function Edit() {
                 setIsLoaded(true);
                 setError(error);
             });
-
-
     }, []);
-
-    const preImage = () => setIndex(currentIndex === 0 ? memesList.length - 1 : currentIndex - 1);
-    const nextImage = () => setIndex(currentIndex === memesList.length - 1 ? 0 : currentIndex + 1);
-
 
     if (error) {
         return <div>Error:{error.message}</div>;
@@ -54,12 +48,38 @@ function Edit() {
                         <img className="image" src={memesList[currentIndex].url} alt="Image can not be displayed"/>
                     </div>
                     <div className="buttonsArea">
-                        <button className="preButton" onClick={preImage}>Pre</button>
-                        <button className="nextButton" onClick={nextImage}>Next</button>
+                        <button className="preButton"
+                                onClick={()=>setIndex(currentIndex === 0 ? memesList.length - 1 : currentIndex - 1)}
+                        >Pre</button>
+                        <button className="nextButton"
+                                onClick={()=>setIndex(currentIndex === memesList.length - 1 ? 0 : currentIndex + 1)}
+                        >Next</button>
                     </div>
                 </div>
                 <div className="inputArea">
-                    This is Input Area
+                    <div className="inputUnit">
+                        <input className="inputBox" type="text"/>
+                        <input className="inputColor" type="color"/>
+                        <div>
+                            <label>Size</label>
+                            <input className="fontSize" type="number" defaultValue={40}/>
+                        </div>
+
+                        <div>
+                            <label>Bold</label>
+                            <input className="fontBold" type="checkbox"/>
+                        </div>
+
+                        <div>
+                            <label>Italic</label>
+                            <input className="fontItalic" type="checkbox"/>
+                        </div>
+
+
+
+
+
+                    </div>
                 </div>
             </div>
         )
