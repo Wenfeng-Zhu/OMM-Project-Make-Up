@@ -8,13 +8,30 @@
     display: grid;
     grid-row-gap:5px;
 }
-img{
+.image{
     width: 100%;
 }
 
 .scrollBar{
-    background: #5196A6;;
-    height: 100px;
+    display: grid;
+    height: 120px;
+}
+.imageTitle{
+    height: 20px;
+    font-weight: bold;
+}
+.scrollImages{
+    height: 100%;
+    display: inline-block;
+    overflow: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+.scrollSingleImage{
+    height: 100%;
+    display: inline-block;
+    border: 2px solid #000;
+    margin-right: 5px;
 }
 
 .displayArea{
