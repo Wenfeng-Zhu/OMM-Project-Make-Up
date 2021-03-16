@@ -1,66 +1,19 @@
 .EditArea{
     display: grid;
     grid-template-columns: 45% 55%;
-
 }
-
-.imageArea{
-    display: grid;
-    grid-row-gap:5px;
-}
-.image{
-    width: 100%;
-}
-
-.scrollBar{
-    display: grid;
-    height: 120px;
-}
-.imageTitle{
-    height: 20px;
-    font-weight: bold;
-}
-.scrollImages{
-    height: 100%;
-    display: inline-block;
-    overflow: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-}
-.scrollSingleImage{
-    height: 100%;
-    display: inline-block;
-    border: 2px solid #000;
-    margin-right: 3px;
-}
-
-.displayArea{
-    /*background: crimson;*/
-}
-
-.buttonsArea{
-    display: grid;
-    grid-template-columns: 50% 50%;
-    height: 40px;
-}
-
 .inputArea{
+    display: grid;
+    grid-template-rows: 90% 10%;
+}
+.inputBoxes{
     background: aquamarine;
     display: grid;
     grid-template-rows: repeat(auto-fill, 60px);
-}
-.inputUnit{
-    display: grid;
-    width: 100%;
-    grid-template-columns: 60% auto auto auto auto;
-    grid-column-gap: 5px;
-    align-items: center;
-    margin-left: 3px;
-}
-.inputBox{
-    height: 60%;
+    overflow: auto;
 }
 
-.fontSize{
-    width: 30px;
+.addButton{
+
 }
+

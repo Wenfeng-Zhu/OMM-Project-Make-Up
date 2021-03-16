@@ -1,0 +1,16 @@
+
+.inputUnit{
+    display: grid;
+    width: 95%;
+    grid-template-columns: 58% auto auto auto auto;
+    grid-column-gap: 5px;
+    align-items: center;
+    margin-left: 5px;
+}
+.inputBox{
+    height: 60%;
+}
+
+.fontSize{
+    width: 35px;
+}
