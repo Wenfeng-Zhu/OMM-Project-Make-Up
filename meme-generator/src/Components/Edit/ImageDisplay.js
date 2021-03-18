@@ -1,7 +1,11 @@
-import React from 'react';
+import React ,{useEffect}from 'react';
+import Draggable from 'react-draggable';
 import './ImageDisplay.css';
 
 function ImageDisplay(props) {
+    useEffect(()=>{
+
+    });
     return (
         <div className="imageArea">
             <div className="scrollBar">
@@ -23,22 +27,28 @@ function ImageDisplay(props) {
 
             <div className="displayArea">
                 <img className="image" src={props.memesList[props.currentIndex].url} alt="Image can not be displayed"/>
-                <text className="text_0"
+                <Draggable bounds={'parent'}>
+                    <text className="text_0"
                           style={{
                               fontSize: props.inputUnit_0.size+'px',
                               color: props.inputUnit_0.color,
                               fontWeight: props.inputUnit_0.bold ? 'bold' : 'normal',
                               fontStyle: props.inputUnit_0.italic ? 'italic' : 'normal'
                           }}
-                >{props.inputUnit_0.text}</text>
-                <text className="text_1"
-                      style={{
-                          fontSize: props.inputUnit_1.size+'px',
-                          color: props.inputUnit_1.color,
-                          fontWeight: props.inputUnit_1.bold ? 'bold' : 'normal',
-                          fontStyle: props.inputUnit_1.italic ? 'italic' : 'normal'
-                      }}
-                >{props.inputUnit_1.text}</text>
+                    >{props.inputUnit_0.text}</text>
+                </Draggable>
+                <Draggable bounds={'parent'}>
+                    <text className="text_1"
+                          style={{
+                              fontSize: props.inputUnit_1.size+'px',
+                              color: props.inputUnit_1.color,
+                              fontWeight: props.inputUnit_1.bold ? 'bold' : 'normal',
+                              fontStyle: props.inputUnit_1.italic ? 'italic' : 'normal'
+                          }}
+                    >{props.inputUnit_1.text}</text>
+                </Draggable>
+
+
             </div>
             <div className="buttonsArea">
                 <button className="preButton"
