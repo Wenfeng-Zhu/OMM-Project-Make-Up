@@ -1,10 +1,11 @@
-import React ,{useEffect}from 'react';
+import React ,{useEffect,useRef}from 'react';
 import Draggable from 'react-draggable';
 import './ImageDisplay.css';
 
 function ImageDisplay(props) {
+    const exportImage = useRef(null);
     useEffect(()=>{
-
+        props.setExportImage(exportImage.current);
     });
     return (
         <div className="imageArea">
@@ -25,7 +26,7 @@ function ImageDisplay(props) {
                 </div>
             </div>
 
-            <div className="displayArea">
+            <div className="displayArea" ref={exportImage}>
                 <img className="image" src={props.memesList[props.currentIndex].url} alt="Image can not be displayed"/>
                 <Draggable bounds={'parent'}>
                     <text className="text_0"

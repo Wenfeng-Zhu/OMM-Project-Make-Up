@@ -19,6 +19,7 @@ function App() {
     // useEffect(() => {
     //     callAPI();
     // });
+    const [exportImage,setExportImage] = useState(null);
 
     return (
         <div className="App">
@@ -27,8 +28,8 @@ function App() {
             </header>
             <div className="leftSidebar"/>
             <main>
-                <Edit/>
-                <Operations/>
+                <Edit setExportImage = {setExportImage}/>
+                <Operations exportImage = {exportImage}/>
                 <Comments/>
             </main>
             <div className="rightSidebar"/>

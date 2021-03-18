@@ -41,7 +41,7 @@ const reducer = (state, action) => {
     }
 };
 
-function Edit() {
+function Edit(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [memesList, setMemes] = useState([]);
@@ -90,6 +90,7 @@ function Edit() {
                     setIndex={setIndex}
                     inputUnit_0 = {inputUnit_0}
                     inputUnit_1 = {inputUnit_1}
+                    setExportImage = {props.setExportImage}
                 />
                 <div className="inputArea">
                     <div className="inputBoxes" id="inputBoxes">
@@ -104,9 +105,9 @@ function Edit() {
 
                 </div>
 
-                <p>
-                    {/*{inputUnit_0.size + ' ' + inputUnit_1.index+' '}*/}
-                </p>
+                {/*<p>*/}
+                {/*    /!*{inputUnit_0.size + ' ' + inputUnit_1.index+' '}*!/*/}
+                {/*</p>*/}
 
             </div>
         )

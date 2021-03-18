@@ -1,12 +1,17 @@
 import React from 'react';
-import './Operations.css'
+import './Operations.css';
+import domToImage from 'dom-to-image';
+import {saveAs} from 'file-saver';
 
-function Operations(){
+function Operations(props){
     return(
         <div className="OperationsArea">
-            <p>
-                This is Operations Area!
-            </p>
+            <button onClick={()=>{
+                //const node = document.getElementsByClassName('displayArea');
+                domToImage.toBlob(props.exportImage).then((blob)=>{
+                    saveAs(blob,'自动保存.png')
+                })
+            }}>Download</button>
         </div>
     )
 }
