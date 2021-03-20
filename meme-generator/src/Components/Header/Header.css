@@ -9,9 +9,9 @@
 .logIn{
     align-items: center;
     font-size: calc(3vmin);
-    margin-right: 10vh;
+    margin-right: 2vh;
 }
-.user{
+.registration{
     align-items: center;
     font-size: calc(3vmin);
     margin-right: 8vh;

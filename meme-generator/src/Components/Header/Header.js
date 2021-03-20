@@ -21,40 +21,61 @@ import {
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import {AccountCircle} from "@material-ui/icons";
+
+const initialRegistrationPwd = {
+    originalPwd: '',
+    confirmedPwd: ''
+}
 
 
 function Header(props) {
     //const [isLoggedIn, log] = useState(props.isLogged);
-    const [openDialog, setOpen] = useState(false);
+    const [showLogIn, setLog] = useState(false);
+    const [showRegistration, setShowRegistration] = useState(false)
+    const [registrationPwd, setPwd] = useState(initialRegistrationPwd);
+    const [confirmed, setConfirmed] = useState(true);
     const [showPassword, handleShowPassword] = useState(false);
 
     const logOperation = () => props.logInOrOut(!props.isLogged);
+    // const confirmPwd = () => {
+    //     setConfirmed(registrationPwd.originalPwd === registrationPwd.confirmedPwd);
+    // }
 
 
     return (
         <IconContext.Provider value={{color: '#fff'}}>
             <div className="headerBar">
-                <button variant="outlined" color="primary" className="logIn" onClick={() => {
-                    setOpen(true);
+                <button className="logIn" onClick={() => {
+                    setLog(true);
                 }}>
                     Log In
                 </button>
-                <Dialog open={openDialog} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Log In</DialogTitle>
+                <button className="registration" onClick={() => {
+                    setShowRegistration(true);
+                }}>
+                    Registration
+                </button>
+
+                <Dialog open={showLogIn} aria-labelledby="Log-In-Dialog">
+                    <DialogTitle id="Log-In-Dialog">Log In</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             Input your username and password to log in.
                         </DialogContentText>
-                        <TextField
-                            autoFocus
-                            variant="outlined"
-                            margin="dense"
-                            id="name"
-                            label="User Name or Email Address"
-                            type="email"
-                            fullWidth
-                        />
-                        <FormControl fullWidth variant="outlined">
+                        <FormControl fullWidth>
+                            <InputLabel htmlFor="userName">User Name or Email Address</InputLabel>
+                            <Input
+                                id="userName"
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <AccountCircle/>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <b/>
+                        <FormControl fullWidth>
                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                             <Input
                                 id="outlined-adornment-password"
@@ -75,22 +96,104 @@ function Header(props) {
                         </FormControl>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={()=>{
-                            setOpen(false);
+                        <Button onClick={() => {
+                            setLog(false);
                         }}>
                             Cancel
                         </Button>
-                        <Button onClick={()=>{
-                            setOpen(false);
+                        <Button onClick={() => {
+                            setLog(false);
                         }}>
                             Log in
                         </Button>
                     </DialogActions>
                 </Dialog>
-                {/*{*/}
-                {/*    props.isLogged ? <button className="user" onClick={logOperation}>Username</button>:*/}
-                {/*        <button className="logIn" onClick={logOperation}>Log in</button>*/}
-                {/*}*/}
+                <Dialog open={showRegistration} aria-labelledby="Registration-Dialog">
+                    <DialogTitle id="Registration-Dialog">Registration</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Register a new account on the website.
+                        </DialogContentText>
+                        <FormControl fullWidth>
+                            <InputLabel htmlFor="userName">User Name or Email Address</InputLabel>
+                            <Input
+                                id="userName"
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <AccountCircle/>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <b/>
+                        <FormControl fullWidth>
+                            <InputLabel htmlFor="registration-password">Password</InputLabel>
+                            <Input
+                                id="registration-password"
+                                value={registrationPwd.originalPwd}
+                                //onCompositionEnd={event => setPwd(event.target.value)}
+                                //onCompositionEnd={event => setPwd(event.target.value)}
+                                onChange={event => setPwd({...registrationPwd, originalPwd: event.target.value})}
+                                type={showPassword ? "text" : "password"}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => {
+                                                handleShowPassword(!showPassword)
+                                            }}>
+                                            {showPassword ? <Visibility/> : <VisibilityOff/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <p/>
+                        <FormControl fullWidth>
+                            <InputLabel
+                                color={confirmed?'primary':'secondary'}
+                                htmlFor="confirm-password">{confirmed ? 'Confirm your password' : 'The confirmed password does not match'}</InputLabel>
+                            <Input
+                                error={!confirmed}
+                                id="confirm-password"
+                                type={showPassword ? "text" : "password"}
+                                onChange={event => {
+                                    setPwd({...registrationPwd, confirmedPwd: event.target.value});
+                                    setConfirmed(true);
+                                }}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => {
+                                                handleShowPassword(!showPassword)
+                                            }}>
+                                            {showPassword ? <Visibility/> : <VisibilityOff/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {
+                            setShowRegistration(false);
+                            setPwd(initialRegistrationPwd);
+                        }}>
+                            Cancel
+                        </Button>
+                        <Button onClick={() => {
+                            if (registrationPwd.originalPwd === registrationPwd.confirmedPwd) {
+                                alert('registration successfully');
+                            } else {
+                                setConfirmed(false);
+                            }
+                        }}>
+                            Registration
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
             </div>
         </IconContext.Provider>
 
