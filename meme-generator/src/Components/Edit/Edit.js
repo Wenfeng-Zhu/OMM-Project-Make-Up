@@ -49,6 +49,7 @@ function Edit(props) {
     //const [inputUnits,updateAllUnits] = useState([]);
     const [inputUnit_0, updateInputUnit_0] = useReducer(reducer, initialInputUnit);
     const [inputUnit_1, updateInputUnit_1] = useReducer(reducer, initialInputUnit);
+    const moreInputBoxes = useRef(null);
 
     // function initialInputUnits(index){
     //     let tempInputUnits = inputUnits.slice();
@@ -93,13 +94,17 @@ function Edit(props) {
                     setExportImage = {props.setExportImage}
                 />
                 <div className="inputArea">
-                    <div className="inputBoxes" id="inputBoxes">
+                    <div className="inputBoxes" >
                         <TextInput updateInputUnit={updateInputUnit_0} index = {'0'}/>
                         <TextInput updateInputUnit={updateInputUnit_1} index = {'1'}/>
                     </div>
+                    <div className="addedInputBoxes" ref={moreInputBoxes}>
+
+                    </div>
                     <button className="addButton"
                             onClick={()=>{
-                                ReactDOM.render(<TextInput updateInputUnit={updateInputUnit_1} index = {'1'}/>,document.getElementById('inputBoxes'))
+                                //inputBoxes.current.
+                                ReactDOM.render(<TextInput updateInputUnit={updateInputUnit_1} />,moreInputBoxes.current)
                             }}
                     >Add A New Text</button>
 

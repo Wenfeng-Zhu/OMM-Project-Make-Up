@@ -30,7 +30,6 @@ function TextInput(props) {
                 <input className="fontItalic" type="checkbox"
                        onChange={event => props.updateInputUnit({type: 'italic', italic: event.target.checked})}/>
             </div>
-
         </div>
 
     )
