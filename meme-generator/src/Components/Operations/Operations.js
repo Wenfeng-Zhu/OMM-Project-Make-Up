@@ -3,15 +3,16 @@ import './Operations.css';
 import domToImage from 'dom-to-image';
 import {saveAs} from 'file-saver';
 
-function Operations(props){
-    return(
+function Operations(props) {
+    return (
         <div className="OperationsArea">
-            <button onClick={()=>{
+            <button onClick={() => {
                 //const node = document.getElementsByClassName('displayArea');
-                domToImage.toBlob(props.exportImage).then((blob)=>{
-                    saveAs(blob,'自动保存.png')
+                domToImage.toBlob(props.exportImage).then((blob) => {
+                    saveAs(blob, '自动保存.png')
                 })
-            }}>Download</button>
+            }}>Download
+            </button>
         </div>
     )
 }

@@ -1,10 +1,10 @@
-import React ,{useEffect,useRef}from 'react';
+import React, {useEffect, useRef} from 'react';
 import Draggable from 'react-draggable';
 import './ImageDisplay.css';
 
 function ImageDisplay(props) {
     const exportImage = useRef(null);
-    useEffect(()=>{
+    useEffect(() => {
         props.setExportImage(exportImage.current);
     });
     return (
@@ -29,24 +29,24 @@ function ImageDisplay(props) {
             <div className="displayArea" ref={exportImage}>
                 <img className="image" src={props.memesList[props.currentIndex].url} alt="Image can not be displayed"/>
                 <Draggable bounds={'parent'}>
-                    <text className="text_0"
-                          style={{
-                              fontSize: props.inputUnit_0.size+'px',
-                              color: props.inputUnit_0.color,
-                              fontWeight: props.inputUnit_0.bold ? 'bold' : 'normal',
-                              fontStyle: props.inputUnit_0.italic ? 'italic' : 'normal'
-                          }}
-                    >{props.inputUnit_0.text}</text>
+                    <p className="text_0"
+                       style={{
+                           fontSize: props.inputUnit_0.size + 'px',
+                           color: props.inputUnit_0.color,
+                           fontWeight: props.inputUnit_0.bold ? 'bold' : 'normal',
+                           fontStyle: props.inputUnit_0.italic ? 'italic' : 'normal'
+                       }}
+                    >{props.inputUnit_0.text}</p>
                 </Draggable>
                 <Draggable bounds={'parent'}>
-                    <text className="text_1"
-                          style={{
-                              fontSize: props.inputUnit_1.size+'px',
-                              color: props.inputUnit_1.color,
-                              fontWeight: props.inputUnit_1.bold ? 'bold' : 'normal',
-                              fontStyle: props.inputUnit_1.italic ? 'italic' : 'normal'
-                          }}
-                    >{props.inputUnit_1.text}</text>
+                    <p className="text_1"
+                       style={{
+                           fontSize: props.inputUnit_1.size + 'px',
+                           color: props.inputUnit_1.color,
+                           fontWeight: props.inputUnit_1.bold ? 'bold' : 'normal',
+                           fontStyle: props.inputUnit_1.italic ? 'italic' : 'normal'
+                       }}
+                    >{props.inputUnit_1.text}</p>
                 </Draggable>
 
 

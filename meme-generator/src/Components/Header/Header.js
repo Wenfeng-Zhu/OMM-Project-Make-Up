@@ -1,7 +1,7 @@
 import React, {Component, useState} from "react";
 import './Header.css';
-import * as BiIcons from 'react-icons/bi';
-import {BiLogIn} from "react-icons/bi";
+// import * as BiIcons from 'react-icons/bi';
+// import {BiLogIn} from "react-icons/bi";
 import {IconContext} from "react-icons";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -10,18 +10,19 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {
     Button,
-    FilledInput,
+    // FilledInput,
     FormControl,
     IconButton,
     Input,
     InputLabel,
-    OutlinedInput,
-    TextField
+    // OutlinedInput,
+    // TextField
 } from "@material-ui/core";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import {AccountCircle} from "@material-ui/icons";
+// const axios = require('axios').default;
 
 const initialRegistrationPwd = {
     originalPwd: '',
@@ -36,11 +37,19 @@ function Header(props) {
     const [registrationPwd, setPwd] = useState(initialRegistrationPwd);
     const [confirmed, setConfirmed] = useState(true);
     const [showPassword, handleShowPassword] = useState(false);
+    const [userInfo, setUserInfo] = useState({
+        username: '',
+        password: ''
+    })
 
     const logOperation = () => props.logInOrOut(!props.isLogged);
     // const confirmPwd = () => {
     //     setConfirmed(registrationPwd.originalPwd === registrationPwd.confirmedPwd);
     // }
+
+    function postUserInfo(){
+
+    }
 
 
     return (
@@ -118,6 +127,7 @@ function Header(props) {
                             <InputLabel htmlFor="userName">User Name or Email Address</InputLabel>
                             <Input
                                 id="userName"
+                                onChange={event => setUserInfo({...userInfo,username: event.target.value})}
                                 startAdornment={
                                     <InputAdornment position="start">
                                         <AccountCircle/>
@@ -148,10 +158,10 @@ function Header(props) {
                                 }
                             />
                         </FormControl>
-                        <p/>
+                        <b/>
                         <FormControl fullWidth>
                             <InputLabel
-                                color={confirmed?'primary':'secondary'}
+                                color={confirmed ? 'primary' : 'secondary'}
                                 htmlFor="confirm-password">{confirmed ? 'Confirm your password' : 'The confirmed password does not match'}</InputLabel>
                             <Input
                                 error={!confirmed}
@@ -159,6 +169,7 @@ function Header(props) {
                                 type={showPassword ? "text" : "password"}
                                 onChange={event => {
                                     setPwd({...registrationPwd, confirmedPwd: event.target.value});
+                                    setUserInfo({...userInfo,password: event.target.value});
                                     setConfirmed(true);
                                 }}
                                 endAdornment={
@@ -182,9 +193,23 @@ function Header(props) {
                         }}>
                             Cancel
                         </Button>
-                        <Button onClick={() => {
+                        <Button  onClick={() => {
                             if (registrationPwd.originalPwd === registrationPwd.confirmedPwd) {
-                                alert('registration successfully');
+                                fetch('http://localhost:5000/account/registration', {
+                                    method: 'POST',
+                                    mode:'cors',
+                                    headers: {'Content-Type':'application/json'},
+                                    body: JSON.stringify(userInfo)
+                                }).then(function(res){
+                                    if(res.ok){
+                                        console.log('POST成功')
+                                    }else{
+                                        console.log('请求失败');
+                                    }
+                                }, function(e){
+                                    console.log('请求失败:'+e);
+                                })
+                                //alert('registration successfully');
                             } else {
                                 setConfirmed(false);
                             }
