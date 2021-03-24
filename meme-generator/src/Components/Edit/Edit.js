@@ -1,4 +1,4 @@
-import React,{useState, useEffect, useReducer, useRef} from 'react';
+import React, {useState, useEffect, useReducer, useRef} from 'react';
 import './Edit.css';
 import './ImageDisplay';
 import ImageDisplay from "./ImageDisplay";
@@ -89,24 +89,26 @@ function Edit(props) {
                     memesList={memesList}
                     currentIndex={currentIndex}
                     setIndex={setIndex}
-                    inputUnit_0 = {inputUnit_0}
-                    inputUnit_1 = {inputUnit_1}
-                    setExportImage = {props.setExportImage}
+                    inputUnit_0={inputUnit_0}
+                    inputUnit_1={inputUnit_1}
+                    setExportImage={props.setExportImage}
                 />
                 <div className="inputArea">
-                    <div className="inputBoxes" >
-                        <TextInput updateInputUnit={updateInputUnit_0} index = {'0'}/>
-                        <TextInput updateInputUnit={updateInputUnit_1} index = {'1'}/>
+                    <div className="inputBoxes">
+                        <TextInput updateInputUnit={updateInputUnit_0} index={'0'}/>
+                        <TextInput updateInputUnit={updateInputUnit_1} index={'1'}/>
                     </div>
                     <div className="addedInputBoxes" ref={moreInputBoxes}>
 
                     </div>
                     <button className="addButton"
-                            onClick={()=>{
+                            onClick={() => {
                                 //inputBoxes.current.
-                                ReactDOM.render(<TextInput updateInputUnit={updateInputUnit_1} />,moreInputBoxes.current)
+                                ReactDOM.render(<TextInput
+                                    updateInputUnit={updateInputUnit_1}/>, moreInputBoxes.current)
                             }}
-                    >Add A New Text</button>
+                    >Add A New Text
+                    </button>
 
                 </div>
 

@@ -7,6 +7,7 @@ router.get('/', function (req, res, next) {
     res.send('Log In Successfully');
 });
 
+//upload the registration info:(username and password) to the database
 router.post('/registration', async function (req, res, next) {
     const user = new User({
         username: req.body.username,
@@ -19,8 +20,7 @@ router.post('/registration', async function (req, res, next) {
             console.log('save success \n' + doc);
         }
     });
-    res.send('注册成功');
-
+    res.send('registration is successful');
 })
 
 module.exports = router;
