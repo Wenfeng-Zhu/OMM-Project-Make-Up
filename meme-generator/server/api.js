@@ -7,7 +7,7 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
-const accountRouter = require('./routes/usersRouter');
+const usersRouter = require('./routes/usersRouter');
 const imagesRouter = require('./routes/imagesRouter');
 const emailRouter = require('./routes/emailRouter')
 
@@ -33,7 +33,7 @@ api.use(cookieParser());
 api.use(express.static(path.join(__dirname, 'public')));
 
 api.use('/', indexRouter);
-api.use('/account', accountRouter);
+api.use('/users', usersRouter);
 api.use('/images', imagesRouter);
 api.use('/email', emailRouter);
 

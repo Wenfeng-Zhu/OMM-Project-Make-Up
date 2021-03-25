@@ -34,59 +34,84 @@ const initialConfirmed = {
 
 
 function Header(props) {
-    //const [isLoggedIn, log] = useState(props.isLogged);
-    const [showLogIn, setLog] = useState(false);
+    //set login response
+    const [isLoggedIn, setLoggedIn] = useState(false);
+    //Whether to display the login pop-up window
+    const [showLogIn, setShowLogIn] = useState(false);
+    //Whether to display the registration pop-up window
     const [showRegistration, setShowRegistration] = useState(false)
+    //Whether to display the password
     const [showPassword, handleShowPassword] = useState(false);
 
+    //set the original password and confirmed password
     const [registrationPwd, setPwd] = useState(initialRegistrationPwd);
+    //set the user information: email-address, username, password
     const [userInfo, setUserInfo] = useState(initialUserInfo);
+    //set whether the email and the password are correct during the registration
     const [confirmed, setConfirmed] = useState(initialConfirmed);
-
-
-    const logOperation = () => props.logInOrOut(!props.isLogged);
-    // const confirmPwd = () => {
-    //     setConfirmed(registrationPwd.originalPwd === registrationPwd.confirmedPwd);
-    // }
 
 
     return (
         <IconContext.Provider value={{color: '#fff'}}>
             <div className="headerBar">
-                <button className="logIn" onClick={() => {
-                    setLog(true);
-                }}>
-                    Log In
-                </button>
-                <button className="registration" onClick={() => {
-                    setShowRegistration(true);
-                }}>
-                    Registration
-                </button>
+                <>
+                    {
+                        (!isLoggedIn) ?
+                            (
+                                <div className="beforeLogged">
+                                    <button className="logIn" onClick={() => {
+                                        setShowLogIn(true);
+                                    }}>
+                                        Log In
+                                    </button>
+                                    <button className="registration" onClick={() => {
+                                        setShowRegistration(true);
+                                    }}>
+                                        Registration
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="afterLogged" >
+                                    <button className="userButton">
+                                        {userInfo.username}
+                                    </button>
+                                </div>
+                            )
+                    }
+                </>
 
+
+                {/*Dialog of the Log-in*/}
                 <Dialog open={showLogIn} aria-labelledby="Log-In-Dialog">
                     <DialogTitle id="Log-In-Dialog">Log In</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Input your username and password to log in.
+                            Input your email address and password to log in.
                         </DialogContentText>
                         <FormControl fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
                             <Input
                                 id="email"
+                                onChange={event => setUserInfo({...userInfo, email: event.target.value})}
                                 startAdornment={
                                     <InputAdornment position="start">
-                                        <AccountCircle/>
+                                        <EmailIcon/>
                                     </InputAdornment>
                                 }
                             />
                         </FormControl>
                         <b/>
                         <FormControl fullWidth>
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                            <InputLabel htmlFor="password">Password</InputLabel>
                             <Input
-                                id="outlined-adornment-password"
+                                id="password"
+                                onChange={event => setUserInfo({...userInfo, password: event.target.value})}
                                 type={showPassword ? "text" : "password"}
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <LockIcon/>
+                                    </InputAdornment>
+                                }
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -97,25 +122,44 @@ function Header(props) {
                                             {showPassword ? <Visibility/> : <VisibilityOff/>}
                                         </IconButton>
                                     </InputAdornment>
-
                                 }
                             />
                         </FormControl>
+                        <p/>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => {
-                            setLog(false);
+                            setShowLogIn(false);
+                            setUserInfo(initialUserInfo);
                         }}>
                             Cancel
                         </Button>
                         <Button onClick={() => {
-                            setLog(false);
+                            fetch('http://localhost:5000/users/login', {
+                                method: 'POST',
+                                mode: 'cors',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify(userInfo)
+                            }).then(response => {
+                                if (response.ok) {
+                                    return(response.json()).then((json)=>{
+                                        setUserInfo({...userInfo,username: json.user.username})
+                                        setLoggedIn(true);
+                                        setShowLogIn(false);
+                                    })
+                                } else if (response.status === 422) {
+                                    alert('The account does not exist or the password is incorrect');
+                                }
+                            }, function (e) {
+                                console.log('require is failed: ' + e);
+                            })
                         }}>
                             Log in
                         </Button>
                     </DialogActions>
                 </Dialog>
 
+                {/*Dialog of registration*/}
                 <Dialog open={showRegistration} aria-labelledby="Registration-Dialog">
                     <DialogTitle id="Registration-Dialog">Registration</DialogTitle>
                     <DialogContent>
@@ -161,8 +205,6 @@ function Header(props) {
                             <Input
                                 id="registration-password"
                                 value={registrationPwd.originalPwd}
-                                //onCompositionEnd={event => setPwd(event.target.value)}
-                                //onCompositionEnd={event => setPwd(event.target.value)}
                                 onChange={event => setPwd({...registrationPwd, originalPwd: event.target.value})}
                                 type={showPassword ? "text" : "password"}
                                 startAdornment={
@@ -233,22 +275,21 @@ function Header(props) {
                                 if (!(registrationPwd.originalPwd === registrationPwd.confirmedPwd)) {
                                     setConfirmed({...confirmed, pwdConfirmed: false});
                                 } else {
-                                    // fetch('http://localhost:5000/account/registration', {
-                                    //     method: 'POST',
-                                    //     mode: 'cors',
-                                    //     headers: {'Content-Type': 'application/json'},
-                                    //     body: JSON.stringify(userInfo)
-                                    // }).then(function (res) {
-                                    //     if (res.ok) {
-                                    //         console.log('POST成功')
-                                    //     } else {
-                                    //         console.log('请求失败');
-                                    //     }
-                                    // }, function (e) {
-                                    //     console.log('请求失败:' + e);
-                                    // })
-                                    //alert('registration successfully');
-                                    //alert('注册成功' + ' ' + (registrationPwd.originalPwd === registrationPwd.confirmedPwd) + ' ' + userInfo.email + ' ' + userInfo.username + ' ' + userInfo.password + ' ' + registrationPwd.originalPwd);
+                                    fetch('http://localhost:5000/users/registration', {
+                                        method: 'POST',
+                                        mode: 'cors',
+                                        headers: {'Content-Type': 'application/json'},
+                                        body: JSON.stringify(userInfo)
+                                    }).then(function (res) {
+                                        if (res.ok) {
+                                            console.log('POST successfully！')
+                                        } else {
+                                            console.log('require is failed！');
+                                        }
+                                    }, function (e) {
+                                        console.log('require is failed: ' + e);
+                                    })
+                                    alert('registration successfully');
                                 }
                             }
                         }}>

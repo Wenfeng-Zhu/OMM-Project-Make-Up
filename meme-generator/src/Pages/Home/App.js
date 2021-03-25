@@ -22,22 +22,25 @@ function App() {
     // useEffect(() => {
     //     callAPI();
     // });
-    const [exportImage,setExportImage] = useState(null);
-    const [isLogged, logInOrOut] = useState(false);
+    const [exportImage, setExportImage] = useState(null);
+    const [userState, setUserState] = useState({
+        isLoggedIn: false,
+        email: '',
+        username: ''
+    })
     //const [userInfo,setUserInfo] = useReducer()
 
     return (
         <div className="App">
             <header>
                 <Header
-                    isLogged = {isLogged}
-                    logInOrOut = {logInOrOut}
+                    setUserState = {setUserState}
                 />
             </header>
             <div className="leftSidebar"/>
             <main>
-                <Edit setExportImage = {setExportImage}/>
-                <Operations exportImage = {exportImage}/>
+                <Edit setExportImage={setExportImage}/>
+                <Operations exportImage={exportImage}/>
                 <Comments/>
             </main>
             <div className="rightSidebar"/>

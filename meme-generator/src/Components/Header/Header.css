@@ -6,12 +6,22 @@
     justify-content:flex-end;
 
 }
+.beforeLogged{
+    display: grid;
+    grid-template-columns: auto auto;
+}
 .logIn{
     align-items: center;
     font-size: calc(3vmin);
     margin-right: 2vh;
 }
 .registration{
+    align-items: center;
+    font-size: calc(3vmin);
+    margin-right: 8vh;
+}
+
+.userButton{
     align-items: center;
     font-size: calc(3vmin);
     margin-right: 8vh;
