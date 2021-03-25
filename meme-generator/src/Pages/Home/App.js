@@ -23,18 +23,16 @@ function App() {
     //     callAPI();
     // });
     const [exportImage, setExportImage] = useState(null);
-    const [userState, setUserState] = useState({
-        isLoggedIn: false,
-        email: '',
-        username: ''
-    })
+    // logState: logged or not, use to update the whole page when log-in or -out
+    const [logState, setLogState] = useState(sessionStorage.getItem('token') != null);
     //const [userInfo,setUserInfo] = useReducer()
 
     return (
         <div className="App">
             <header>
                 <Header
-                    setUserState = {setUserState}
+                    logState = {logState}
+                    setLogState={setLogState}
                 />
             </header>
             <div className="leftSidebar"/>
@@ -42,6 +40,9 @@ function App() {
                 <Edit setExportImage={setExportImage}/>
                 <Operations exportImage={exportImage}/>
                 <Comments/>
+                <p>
+                    {'token:'+sessionStorage.getItem('token')}
+                </p>
             </main>
             <div className="rightSidebar"/>
             {/*<footer>*/}

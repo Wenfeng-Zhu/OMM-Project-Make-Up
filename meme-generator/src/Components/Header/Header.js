@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import './Header.css';
 import {IconContext} from "react-icons";
+import jwtDecode from "jwt-decode";
 import {
     Dialog,
     DialogActions,
@@ -34,8 +35,7 @@ const initialConfirmed = {
 
 
 function Header(props) {
-    //set login response
-    const [isLoggedIn, setLoggedIn] = useState(false);
+
     //Whether to display the login pop-up window
     const [showLogIn, setShowLogIn] = useState(false);
     //Whether to display the registration pop-up window
@@ -56,7 +56,7 @@ function Header(props) {
             <div className="headerBar">
                 <>
                     {
-                        (!isLoggedIn) ?
+                        (!props.logState) ?
                             (
                                 <div className="beforeLogged">
                                     <button className="logIn" onClick={() => {
@@ -71,9 +71,15 @@ function Header(props) {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="afterLogged" >
-                                    <button className="userButton">
-                                        {userInfo.username}
+                                <div className="afterLogged">
+                                    <button className="userButton"
+                                            onClick={() => {
+                                                sessionStorage.removeItem('token')
+                                                props.setLogState(false);
+                                            }}>
+                                        {
+                                            jwtDecode(sessionStorage.getItem('token')).username
+                                        }
                                     </button>
                                 </div>
                             )
@@ -142,10 +148,12 @@ function Header(props) {
                                 body: JSON.stringify(userInfo)
                             }).then(response => {
                                 if (response.ok) {
-                                    return(response.json()).then((json)=>{
-                                        setUserInfo({...userInfo,username: json.user.username})
-                                        setLoggedIn(true);
+                                    return (response.json()).then((json) => {
+                                        //setUserInfo({...userInfo,username: json.user.username})
+                                        //setLoggedIn(true);
+                                        sessionStorage.setItem('token',json.token)
                                         setShowLogIn(false);
+                                        props.setLogState(true);
                                     })
                                 } else if (response.status === 422) {
                                     alert('The account does not exist or the password is incorrect');
