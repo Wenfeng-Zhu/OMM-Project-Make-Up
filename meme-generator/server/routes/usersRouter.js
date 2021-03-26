@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user')
+const Admin = require('../models/admin')
 const jwt = require('jsonwebtoken');
 const SECRET = 'token_secret';
+
 
 /* Verify login information */
 router.post('/login', async function (req, res, next) {
@@ -15,12 +17,12 @@ router.post('/login', async function (req, res, next) {
         })
     }
     const isPasswordValid = require('bcrypt').compareSync(req.body.password, user.password);
-    if (!isPasswordValid){
+    if (!isPasswordValid) {
         return res.status(422).send({
             message: 'wrong password'
         })
     }
-    const token = jwt.sign({email:user.email,username:user.username},SECRET);
+    const token = jwt.sign({email: user.email, username: user.username}, SECRET);
     //alert(user+token);
     //console.log(user+' '+token)
     res.send({token});
@@ -33,6 +35,10 @@ router.post('/registration', async function (req, res, next) {
         username: req.body.username,
         password: req.body.password
     })
+    // const admin = new Admin({
+    //     username:req.body.username,
+    //     password:req.body.password
+    // })
     await user.save(function (err, doc) {
         if (err) {
             console.log('save error: ' + err);
@@ -42,5 +48,22 @@ router.post('/registration', async function (req, res, next) {
     });
     res.send('registration is successful');
 })
+
+/* Verify admin information */
+router.post('/admin', async function (req, res, next) {
+    const admin = await Admin.findOne({
+        username:req.body.username
+    })
+    if(req.body.password === admin.password){
+        res.send({success:true})
+    }
+    else {
+        res.status(422);
+    }
+
+    // res.send({admin})
+
+});
+
 
 module.exports = router;

@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './Pages/Home/App';
+import HomePage from './Pages/Home/HomePage';
+import Admin from './Pages/Admin/Admin'
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <>
+          <Router>
+              <Switch>
+                  <Route path={'/'} exact component = {HomePage}/>
+                  <Route path={'/admin'} component={Admin}/>
+              </Switch>
+          </Router>
+      </>
   </React.StrictMode>,
   document.getElementById('root')
 );

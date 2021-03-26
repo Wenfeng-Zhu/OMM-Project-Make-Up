@@ -1,4 +1,4 @@
-import './App.css';
+import './HomePage.css';
 import React, {useState, useEffect} from 'react';
 import Header from '../../Components/Header/Header';
 import Edit from "../../Components/Edit/Edit";
@@ -9,7 +9,7 @@ import Comments from "../../Components/Comments/Comments";
 //     username:'',
 // }
 
-function App() {
+function HomePage() {
     // const [text, setText] = useState(null);
     //
     // function callAPI() {
@@ -53,4 +53,4 @@ function App() {
     );
 }
 
-export default App;
+export default HomePage;
