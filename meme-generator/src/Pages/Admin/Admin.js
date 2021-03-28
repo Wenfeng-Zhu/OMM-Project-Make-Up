@@ -1,17 +1,24 @@
 import React, {useState} from "react";
+import './Admin.css';
+import {Link} from 'react-router-dom';
 import {
     Button,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    FormControl, IconButton,
+    FormControl,
     Input,
     InputAdornment,
     InputLabel
 } from "@material-ui/core";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import UsersList from "../../Components/Admin/UsersList";
+import ImagesList from "../../Components/Admin/ImagesList";
+import AdminNav from "../../Components/Admin/AdminNav";
+
 
 function Admin() {
     const [adminLogged, setAdminLogged] = useState(sessionStorage.getItem('admin'));
@@ -21,7 +28,7 @@ function Admin() {
     })
     return (
         (!adminLogged) ?
-            <Dialog open={true}>
+            <Dialog className='adminLogWindow' open={true}>
                 <DialogTitle id="Log-In-Dialog">Admin Log In</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -83,11 +90,19 @@ function Admin() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            : <button onClick={()=>{
-                sessionStorage.removeItem('admin');
-                setAdminLogged(sessionStorage.getItem('admin'));
+            :
+            <div className='AdminPage'>
+                <Router>
+                    <AdminNav/>
+                    <Switch>
+                        <Route exact path={'/admin'} component={null}/>
+                        <Route path={'/admin/usersList'} component={UsersList}/>
+                        <Route path={'/admin/imagesList'} component={ImagesList}/>
+                    </Switch>
+                </Router>
 
-            }}>Log Out</button>
+            </div>
+
 
     )
 }

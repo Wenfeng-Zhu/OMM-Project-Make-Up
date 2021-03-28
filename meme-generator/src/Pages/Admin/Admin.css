@@ -1,0 +1,9 @@
+.AdminPage{
+    background: whitesmoke;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    height: 100vh;
+
+}
+
+

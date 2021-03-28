@@ -52,18 +52,26 @@ router.post('/registration', async function (req, res, next) {
 /* Verify admin information */
 router.post('/admin', async function (req, res, next) {
     const admin = await Admin.findOne({
-        username:req.body.username
+        username: req.body.username
     })
-    if(req.body.password === admin.password){
-        res.send({success:true})
-    }
-    else {
+    if (req.body.password === admin.password) {
+        res.send({success: true})
+    } else {
         res.status(422);
     }
-
     // res.send({admin})
-
 });
+
+router.get('/usersList', async function (req, res, next) {
+    await User.find({}, {email: 1, username: 1, password: 1}, function (err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(result);
+        }
+    })
+
+})
 
 
 module.exports = router;

@@ -40,9 +40,9 @@ function HomePage() {
                 <Edit setExportImage={setExportImage}/>
                 <Operations exportImage={exportImage}/>
                 <Comments/>
-                <p>
-                    {'token:'+sessionStorage.getItem('token')}
-                </p>
+                {/*<p>*/}
+                {/*    {'token:'+sessionStorage.getItem('token')}*/}
+                {/*</p>*/}
             </main>
             <div className="rightSidebar"/>
             {/*<footer>*/}
