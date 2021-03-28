@@ -6,7 +6,7 @@
 .inputArea{
     background: aquamarine;
     display: grid;
-    grid-template-rows: 180px auto 60px;
+    grid-template-rows: auto 50px 50px;
 }
 .addedInputBoxes{
     display: grid;

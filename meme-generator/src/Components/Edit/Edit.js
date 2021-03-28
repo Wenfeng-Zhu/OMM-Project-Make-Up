@@ -4,66 +4,36 @@ import './ImageDisplay';
 import ImageDisplay from "./ImageDisplay";
 import TextInput from "./TextInput";
 import ReactDOM from 'react-dom';
+import Draggable from "react-draggable";
 
-
-const initialInputUnit = {
-    index: 0,
-    text: '',
-    color: '#000000',
-    size: 40,
-    bold: false,
-    italic: false
-}
-
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'index':
-            //inputUnits.push({...state, index: action.index});
-            return {...state, index: action.index};
-        case 'text':
-            //inputUnits[state.index] = {...state, text: action.text};
-            return {...state, text: action.text};
-        case 'color':
-            //inputUnits[state.index] = {...state, color: action.color};
-            return {...state, color: action.color};
-        case 'size':
-            //inputUnits[state.index] = {...state, size: action.size};
-            return {...state, size: action.size};
-        case 'bold':
-            //inputUnits[state.index] = {...state, bold: action.bold};
-            return {...state, bold: action.bold};
-        case 'italic':
-            //inputUnits[state.index] = {...state, italic: action.italic};
-            return {...state, italic: action.italic};
-        default:
-            throw new Error('Unexpected action');
-    }
-};
+// function Text(index, text, color, size, bold, italic) {
+//     this.index = index;
+//     this.text = text;
+//     this.color = color;
+//     this.size = size;
+//     this.bold = bold;
+//     this.italic = italic;
+// }
 
 function Edit(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [memesList, setMemes] = useState([]);
     const [currentIndex, setIndex] = useState(0);
-    //const [inputUnits,updateAllUnits] = useState([]);
-    const [inputUnit_0, updateInputUnit_0] = useReducer(reducer, initialInputUnit);
-    const [inputUnit_1, updateInputUnit_1] = useReducer(reducer, initialInputUnit);
-    const moreInputBoxes = useRef(null);
+    const [numOfTexts, setNum] = useState(2);
+    const [inputUnits, updateInputUnits] = useState({
+        index: 0,
+        text: '',
+        color: '#000000',
+        size: 40,
+        bold: false,
+        italic: false
+    });
 
-    // function initialInputUnits(index){
-    //     let tempInputUnits = inputUnits.slice();
-    //     tempInputUnits.push({
-    //         index: index,
-    //         text: '',
-    //         color: '#000000',
-    //         size: 40,
-    //         bold: false,
-    //         italic: false
-    //     });
-    //     return tempInputUnits;
-    // }
-
+    // const [textList, setTextList] = useState({
+    //     text_0: new Text(0, ',', '#000000', 40, false, false),
+    //     text_1: new Text(1, ',', '#000000', 40, false, false)
+    // });
 
     useEffect(() => {
         fetch("https://api.imgflip.com/get_memes")
@@ -75,7 +45,7 @@ function Edit(props) {
                 setIsLoaded(true);
                 setError(error);
             });
-    }, []);
+    }, [memesList]);
 
     if (error) {
         return <div>Error:{error.message}</div>;
@@ -89,9 +59,9 @@ function Edit(props) {
                     memesList={memesList}
                     currentIndex={currentIndex}
                     setIndex={setIndex}
-                    inputUnit_0={inputUnit_0}
-                    inputUnit_1={inputUnit_1}
+                    inputUnits={inputUnits}
                     setExportImage={props.setExportImage}
+                    numOfTexts = {numOfTexts}
                 />
                 <div className="inputArea">
                     <div className="inputBoxes">
@@ -101,19 +71,32 @@ function Edit(props) {
                                 props.setSavedTitle(event.target.value)
                             }}/>
                         </div>
-                        <TextInput updateInputUnit={updateInputUnit_0} index={'0'}/>
-                        <TextInput updateInputUnit={updateInputUnit_1} index={'1'}/>
-                    </div>
-                    <div className="addedInputBoxes" ref={moreInputBoxes}>
+                        <TextInput updateInputUnits={updateInputUnits} index={0}/>
+                        <TextInput updateInputUnits={updateInputUnits} index={1}/>
+                        {numOfTexts > 2 ? <TextInput updateInputUnits={updateInputUnits} index={2}/> : null}
+                        {numOfTexts > 3 ? <TextInput updateInputUnits={updateInputUnits} index={3}/> : null}
+
 
                     </div>
                     <button className="addButton"
                             onClick={() => {
-                                //inputBoxes.current.
-                                ReactDOM.render(<TextInput
-                                    updateInputUnit={updateInputUnit_1}/>, moreInputBoxes.current)
+                                if (numOfTexts < 4) {
+                                    setNum(numOfTexts + 1);
+                                } else {
+                                    alert('You can only add up to four text input boxes!');
+                                }
                             }}
                     >Add A New Text
+                    </button>
+                    <button className="deleteButton"
+                            onClick={() => {
+                                if (numOfTexts > 2) {
+                                    setNum(numOfTexts - 1);
+                                } else {
+                                    alert('There must be at least two text input boxes!');
+                                }
+                            }}
+                    >Delete A Text
                     </button>
 
                 </div>

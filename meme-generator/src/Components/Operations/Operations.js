@@ -1,8 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {} from 'react';
 import './Operations.css';
 import domToImage from 'dom-to-image';
 import {saveAs} from 'file-saver';
-import * as ReactDOM from "react-dom";
 
 function Operations(props) {
 

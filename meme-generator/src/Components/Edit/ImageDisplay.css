@@ -51,6 +51,22 @@
     font-family: 'impact', serif;
     cursor: pointer;
 }
+.text_2{
+    position: absolute;
+    left: 50px;
+    top: 140px;
+    z-index: 20;
+    font-family: 'impact', serif;
+    cursor: pointer;
+}
+.text_3{
+    position: absolute;
+    left: 50px;
+    top: 200px;
+    z-index: 20;
+    font-family: 'impact', serif;
+    cursor: pointer;
+}
 
 .buttonsArea{
     display: grid;

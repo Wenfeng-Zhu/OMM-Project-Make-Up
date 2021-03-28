@@ -1,12 +1,61 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Draggable from 'react-draggable';
 import './ImageDisplay.css';
 
+
 function ImageDisplay(props) {
     const exportImage = useRef(null);
+
+    const [textsParameter_0, setTextsParameter_0] = useState({
+        index: 0,
+        text: '',
+        color: '#000000',
+        size: 40,
+        bold: false,
+        italic: false
+    });
+    const [textsParameter_1, setTextsParameter_1] = useState({
+        index: 1,
+        text: '',
+        color: '#000000',
+        size: 40,
+        bold: false,
+        italic: false
+    });
+    const [textsParameter_2, setTextsParameter_2] = useState({
+        index: 1,
+        text: '',
+        color: '#000000',
+        size: 40,
+        bold: false,
+        italic: false
+    });
+    const [textsParameter_3, setTextsParameter_3] = useState({
+        index: 1,
+        text: '',
+        color: '#000000',
+        size: 40,
+        bold: false,
+        italic: false
+    });
+
     useEffect(() => {
+
+        //setTextList(textList[props.inputUnits.index])
+
+        if (props.inputUnits.index === 0) {
+            setTextsParameter_0(props.inputUnits);
+        } else if (props.inputUnits.index === 1) {
+            setTextsParameter_1(props.inputUnits);
+        } else if (props.inputUnits.index === 2) {
+            setTextsParameter_2(props.inputUnits)
+        } else if (props.inputUnits.index === 3) {
+            setTextsParameter_3(props.inputUnits)
+        }
         props.setExportImage(exportImage.current);
     });
+
+
     return (
         <div className="imageArea">
             <div className="scrollBar">
@@ -25,29 +74,49 @@ function ImageDisplay(props) {
                     })}
                 </div>
             </div>
-
             <div className="displayArea" ref={exportImage}>
                 <img className="image" src={props.memesList[props.currentIndex].url} alt="Image can not be displayed"/>
                 <Draggable bounds={'parent'}>
-                    <p className="text_0"
+                    <p className={"text_0"}
                        style={{
-                           fontSize: props.inputUnit_0.size + 'px',
-                           color: props.inputUnit_0.color,
-                           fontWeight: props.inputUnit_0.bold ? 'bold' : 'normal',
-                           fontStyle: props.inputUnit_0.italic ? 'italic' : 'normal'
+                           fontSize: textsParameter_0.size + 'px',
+                           color: textsParameter_0.color,
+                           fontWeight: textsParameter_0.bold ? 'bold' : 'normal',
+                           fontStyle: textsParameter_0.italic ? 'italic' : 'normal'
                        }}
-                    >{props.inputUnit_0.text}</p>
+                    >{textsParameter_0.text}</p>
                 </Draggable>
                 <Draggable bounds={'parent'}>
                     <p className="text_1"
                        style={{
-                           fontSize: props.inputUnit_1.size + 'px',
-                           color: props.inputUnit_1.color,
-                           fontWeight: props.inputUnit_1.bold ? 'bold' : 'normal',
-                           fontStyle: props.inputUnit_1.italic ? 'italic' : 'normal'
+                           fontSize: textsParameter_1.size + 'px',
+                           color: textsParameter_1.color,
+                           fontWeight: textsParameter_1.bold ? 'bold' : 'normal',
+                           fontStyle: textsParameter_1.italic ? 'italic' : 'normal'
                        }}
-                    >{props.inputUnit_1.text}</p>
+                    >{textsParameter_1.text}</p>
                 </Draggable>
+                {props.numOfTexts > 2 ? <Draggable bounds={'parent'}>
+                    <p className="text_2"
+                       style={{
+                           fontSize: textsParameter_2.size + 'px',
+                           color: textsParameter_2.color,
+                           fontWeight: textsParameter_2.bold ? 'bold' : 'normal',
+                           fontStyle: textsParameter_2.italic ? 'italic' : 'normal'
+                       }}
+                    >{textsParameter_2.text}</p>
+                </Draggable> : null}
+
+                {props.numOfTexts > 3 ? <Draggable bounds={'parent'}>
+                    <p className="text_3"
+                       style={{
+                           fontSize: textsParameter_3.size + 'px',
+                           color: textsParameter_3.color,
+                           fontWeight: textsParameter_3.bold ? 'bold' : 'normal',
+                           fontStyle: textsParameter_3.italic ? 'italic' : 'normal'
+                       }}
+                    >{textsParameter_3.text}</p>
+                </Draggable> : null}
 
 
             </div>
