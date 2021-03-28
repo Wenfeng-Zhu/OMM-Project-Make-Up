@@ -9,13 +9,13 @@ function Operations(props) {
     return (
         <div className="OperationsArea">
             <button onClick={() => {
-                //const node = document.getElementsByClassName('displayArea');
-                domToImage.toBlob(props.exportImage,null).then((blob) => {
-                    saveAs(blob, '自动保存.png')
+                //alert(props.exportImage.title)
+                domToImage.toBlob(props.exportImage, null).then((blob) => {
+                    saveAs(blob, props.savedTitle)
                 })
             }}>Download
             </button>
-            <button onClick={()=>{
+            <button onClick={() => {
 
             }}>
                 Save

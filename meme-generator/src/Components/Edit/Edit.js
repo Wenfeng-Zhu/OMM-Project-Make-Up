@@ -95,6 +95,12 @@ function Edit(props) {
                 />
                 <div className="inputArea">
                     <div className="inputBoxes">
+                        <div className='titleInput'>
+                            <span>Title</span>
+                            <input className='savedTitle' onChange={event => {
+                                props.setSavedTitle(event.target.value)
+                            }}/>
+                        </div>
                         <TextInput updateInputUnit={updateInputUnit_0} index={'0'}/>
                         <TextInput updateInputUnit={updateInputUnit_1} index={'1'}/>
                     </div>

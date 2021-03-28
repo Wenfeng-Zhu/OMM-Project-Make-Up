@@ -23,6 +23,7 @@ function HomePage() {
     //     callAPI();
     // });
     const [exportImage, setExportImage] = useState(null);
+    const [savedTitle,setSavedTitle] = useState('saved Image')
     // logState: logged or not, use to update the whole page when log-in or -out
     const [logState, setLogState] = useState(sessionStorage.getItem('token') != null);
     //const [userInfo,setUserInfo] = useReducer()
@@ -31,14 +32,18 @@ function HomePage() {
         <div className="App">
             <header>
                 <Header
-                    logState = {logState}
+                    logState={logState}
                     setLogState={setLogState}
                 />
             </header>
             <div className="leftSidebar"/>
             <main>
-                <Edit setExportImage={setExportImage}/>
-                <Operations exportImage={exportImage}/>
+                <Edit
+                    setExportImage={setExportImage}
+                    exportImage={exportImage}
+                    setSavedTitle = {setSavedTitle}
+                />
+                <Operations exportImage={exportImage} savedTitle = {savedTitle}/>
                 <Comments/>
                 {/*<p>*/}
                 {/*    {'token:'+sessionStorage.getItem('token')}*/}
