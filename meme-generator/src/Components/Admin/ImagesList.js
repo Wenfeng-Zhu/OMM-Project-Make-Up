@@ -352,7 +352,38 @@ export default function ImagesList() {
                 control={<Switch checked={dense} onChange={handleChangeDense}/>}
                 label="Dense padding"
             />
+            <>
+                <form action="http://localhost:5000/images" method="post" encType="multipart/form-data">
+                    <div className="panel-body form-horizontal">
+                        <div className="form-group col-md-12">
+                            <label htmlFor="file" className="col-sm-2 control-label">浏览:</label>
+                            <div className="col-md-10">
+                                <input type="file" className="form-control" name="file" id="file"/>
+                            </div>
+                        </div>
+                        <div className="form-group col-md-12">
+                            <label htmlFor="title" className="col-md-2 control-label">标题:</label>
+                            <div className="col-md-10">
+                                <input type="text" className="form-control" name="title"/>
+                            </div>
+                        </div>
+                        <div className="form-group col-md-12">
+                            <label htmlFor="description" className="col-md-2 control-label">描述:</label>
+                            <div className="col-md-10">
+                                <textarea name="description" rows="2" className="form-control"/>
+                            </div>
+                        </div>
+                        <div className="form-group col-md-12">
+                            <div className="col-md-12 text-right">
+                                <button type="submit" id="login-btn" className="btn btn-success">
+                                    <i className="fa fa-cloud-upload"> 上传图片</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </>
         </div>
-    );
+);
 
 }

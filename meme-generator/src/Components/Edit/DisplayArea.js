@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Draggable from 'react-draggable';
-import './ImageDisplay.css';
+import './DisplayArea.css';
+import DisplayImage from "./DisplayImage";
 
 
-function ImageDisplay(props) {
+function DisplayArea(props) {
     const exportImage = useRef(null);
 
     const [textsParameter_0, setTextsParameter_0] = useState({
@@ -23,7 +24,7 @@ function ImageDisplay(props) {
         italic: false
     });
     const [textsParameter_2, setTextsParameter_2] = useState({
-        index: 1,
+        index: 2,
         text: '',
         color: '#000000',
         size: 40,
@@ -31,7 +32,7 @@ function ImageDisplay(props) {
         italic: false
     });
     const [textsParameter_3, setTextsParameter_3] = useState({
-        index: 1,
+        index: 3,
         text: '',
         color: '#000000',
         size: 40,
@@ -61,12 +62,12 @@ function ImageDisplay(props) {
             <div className="scrollBar">
                 {/*The length of memesList is{memesList.length};*/}
                 <p className="imageTitle">
-                    {props.memesList[props.currentIndex].name}
+                    {props.memesList[props.currentIndex].title}
                 </p>
                 <div className="scrollImages">
                     {props.memesList.map((item, index) => {
                         return (
-                            <img key={index} className="scrollSingleImage" src={item.url}
+                            <img key={index} className="scrollSingleImage" src={'http://localhost:5000/upload/'+item.filename}
                                  alt="Image can not be displayed"
                                  onClick={() => props.setIndex(index)}
                             />
@@ -75,7 +76,7 @@ function ImageDisplay(props) {
                 </div>
             </div>
             <div className="displayArea" ref={exportImage}>
-                <img className="image" src={props.memesList[props.currentIndex].url} alt="Image can not be displayed"/>
+                <DisplayImage currentIndex = {props.currentIndex} memesList = {props.memesList}/>
                 <Draggable bounds={'parent'}>
                     <p className={"text_0"}
                        style={{
@@ -134,4 +135,4 @@ function ImageDisplay(props) {
     )
 }
 
-export default ImageDisplay;
+export default DisplayArea;

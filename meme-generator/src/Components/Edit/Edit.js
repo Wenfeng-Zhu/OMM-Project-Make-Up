@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useReducer, useRef} from 'react';
 import './Edit.css';
-import './ImageDisplay';
-import ImageDisplay from "./ImageDisplay";
+import './DisplayArea';
+import DisplayArea from "./DisplayArea";
 import TextInput from "./TextInput";
 import ReactDOM from 'react-dom';
 import Draggable from "react-draggable";
@@ -36,16 +36,23 @@ function Edit(props) {
     // });
 
     useEffect(() => {
-        fetch("https://api.imgflip.com/get_memes")
-            .then(response => response.json())
-            .then(result => {
-                setMemes(result['data']['memes']);
+        // fetch("https://api.imgflip.com/get_memes")
+        //     .then(response => response.json())
+        //     .then(result => {
+        //         setMemes(result['data']['memes']);
+        //         setIsLoaded(true);
+        //     }, (error) => {
+        //         setIsLoaded(true);
+        //         setError(error);
+        //     });
+        fetch('http://localhost:5000/images')
+            .then(res => res.json())
+            .then(result=>{
+                setMemes(result);
                 setIsLoaded(true);
-            }, (error) => {
-                setIsLoaded(true);
-                setError(error);
-            });
-    }, [memesList]);
+            })
+        //alert('render time')
+    },[]);
 
     if (error) {
         return <div>Error:{error.message}</div>;
@@ -55,7 +62,7 @@ function Edit(props) {
         //alert('input text is: '+inputUnit.text);
         return (
             <div className="EditArea">
-                <ImageDisplay
+                <DisplayArea
                     memesList={memesList}
                     currentIndex={currentIndex}
                     setIndex={setIndex}

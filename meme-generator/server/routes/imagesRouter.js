@@ -1,28 +1,88 @@
 const express = require("express");
 const router = express.Router();
 const multer = require('multer')
-const ImageModel = require('../models/image')
 const path = require("path");
-//const upload = multer({ dest: path.join(__dirname, './public/upload/temp') });
+const upload = multer({dest: path.join(__dirname, '../public/upload/temp')});
+const fs = require('fs');
+const imageController = require('../controllers/image')
+const ImageModel = require('../models/image')
 
-router.get("/", function (req, res, next) {
-    res.send('The images controller');
+//load all images from database
+router.get("/", async function (req, res, next) {
+    // const viewModel = {images: []};
+    await ImageModel.find({}, {}, {sort: {timestamp: -1}}, function (err, images) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(images);
+        }
+        //viewModel.images = images;
+
+    })
 });
 
-router.get("/:image_id", function (req, res, next) {
-    res.send('The image: index controller '+ req.params.image_id);
+//get specific image with image_id
+router.get("/:image_id", function (req, res) {
+    const viewModel = {image: {}, comments: []};
+    ImageModel.findOne({_id: req.params.image_id}, function (err, image) {
+        if (err) {
+            console.log(err);
+        }
+        else if (image) {
+            // Increase the number of visits to this image
+            image.views += 1;
+            viewModel.image = image;
+            image.save();
+            res.send('View successfully');
+        }
+        else {
+            res.send('View failed');
+        }
+
+    });
 });
 
-//upload the image to the temp path in the server
-router.post('/',function (req,res,next) {
-    res.send('The image:create POST controller');
+//upload the image to database
+router.post('/', upload.single('file'), function (req, res, next) {
+    let tempPath = req.file.path;
+    let imgUrl = req.file.filename;
+    let ext = path.extname(req.file.originalname).toLowerCase();
+    let targetPath = path.resolve('./server/public/upload/' + imgUrl + ext);
+
+    if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
+        fs.rename(tempPath, targetPath, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                const newImg = new ImageModel({
+                    title: req.file.originalname,
+                    owner: 'public',
+                    filename: imgUrl + ext,
+                })
+                newImg.save(function (err, image) {
+                    if (err) {
+                        console.log(err);
+                        res.status(500).redirect('http://localhost:3000/admin/imagesList')
+                    }
+                })
+                res.status(200).redirect('http://localhost:3000/admin/imagesList');
+            }
+        });
+    } else {
+        fs.unlink(tempPath, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            res.json(500, {error: 'Only image files are allowed to be uploaded.'});
+        });
+    }
 });
 
-router.post('/:image_id/like',function (req,res,next) {
+router.post('/:image_id/like', function (req, res, next) {
     res.send('The image:like POST controller');
 });
 
-router.post('/:image_id/comment',function (req,res,next) {
+router.post('/:image_id/comment', function (req, res, next) {
     res.send('The image:comment POST controller');
 });
 
