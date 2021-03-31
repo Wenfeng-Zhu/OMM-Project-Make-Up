@@ -4,9 +4,9 @@ const path = require('path');
 const Schema = mongoose.Schema;
 
 const ImageSchema = new Schema({
-    title: {type: String},
+    name: {type: String},
     owner: {type: String},
-    filename: {type: String},
+    url: {type: String},
     views: {type: Number, default: 0},
     likes: {type: Number, default: 0},
     timestamp: {type: Date, default: Date.now},
