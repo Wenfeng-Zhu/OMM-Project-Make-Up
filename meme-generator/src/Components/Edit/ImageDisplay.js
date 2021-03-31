@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Draggable from 'react-draggable';
-import './DisplayArea.css';
-import DisplayImage from "./DisplayImage";
+import './ImageDisplay.css';
+import MainImage from "./MainImage";
 
 
-function DisplayArea(props) {
+function ImageDisplay(props) {
     const exportImage = useRef(null);
 
     const [textsParameter_0, setTextsParameter_0] = useState({
@@ -41,9 +41,6 @@ function DisplayArea(props) {
     });
 
     useEffect(() => {
-
-        //setTextList(textList[props.inputUnits.index])
-
         if (props.inputUnits.index === 0) {
             setTextsParameter_0(props.inputUnits);
         } else if (props.inputUnits.index === 1) {
@@ -62,12 +59,14 @@ function DisplayArea(props) {
             <div className="scrollBar">
                 {/*The length of memesList is{memesList.length};*/}
                 <p className="imageTitle">
-                    {props.memesList[props.currentIndex].title}
+                    {props.memesList[props.currentIndex].name}
                 </p>
                 <div className="scrollImages">
                     {props.memesList.map((item, index) => {
                         return (
-                            <img key={index} className="scrollSingleImage" src={'http://localhost:5000/upload/'+item.filename}
+                            <img key={index} className="scrollSingleImage" src={
+                                (props.sourceFromWeb)?('http://localhost:5000/upload/'+item.url):(item.url)
+                            }
                                  alt="Image can not be displayed"
                                  onClick={() => props.setIndex(index)}
                             />
@@ -76,7 +75,11 @@ function DisplayArea(props) {
                 </div>
             </div>
             <div className="displayArea" ref={exportImage}>
-                <DisplayImage currentIndex = {props.currentIndex} memesList = {props.memesList}/>
+                <MainImage
+                    currentIndex = {props.currentIndex}
+                    memesList = {props.memesList}
+                    sourceFromWeb = {props.sourceFromWeb}
+                />
                 <Draggable bounds={'parent'}>
                     <p className={"text_0"}
                        style={{
@@ -135,4 +138,4 @@ function DisplayArea(props) {
     )
 }
 
-export default DisplayArea;
+export default ImageDisplay;

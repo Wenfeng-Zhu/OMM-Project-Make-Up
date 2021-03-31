@@ -55,9 +55,9 @@ router.post('/', upload.single('file'), function (req, res, next) {
                 console.log(err);
             } else {
                 const newImg = new ImageModel({
-                    title: req.file.originalname,
+                    name: req.file.originalname.substring(0,req.file.originalname.indexOf('.')),
                     owner: 'public',
-                    filename: imgUrl + ext,
+                    url: imgUrl + ext,
                 })
                 newImg.save(function (err, image) {
                     if (err) {

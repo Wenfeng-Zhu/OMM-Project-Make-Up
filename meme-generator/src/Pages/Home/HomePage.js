@@ -1,7 +1,7 @@
 import './HomePage.css';
 import React, {useState, useEffect} from 'react';
 import Header from '../../Components/Header/Header';
-import Edit from "../../Components/Edit/Edit";
+import MainDisplay from "../../Components/Edit/MainDisplay";
 import Operations from "../../Components/Operations/Operations";
 import Comments from "../../Components/Comments/Comments";
 
@@ -10,23 +10,49 @@ import Comments from "../../Components/Comments/Comments";
 // }
 
 function HomePage() {
-    // const [text, setText] = useState(null);
-    //
-    // function callAPI() {
-    //     fetch("http://localhost:5000/testAPI")
-    //         .then(res => res.text())
-    //         .then(res => setText(res))
-    //         .catch(err => err);
-    // }
-    //
-    // useEffect(() => {
-    //     callAPI();
-    // });
-    const [exportImage, setExportImage] = useState(null);
-    const [savedTitle,setSavedTitle] = useState('saved Image')
-    // logState: logged or not, use to update the whole page when log-in or -out
+    /**First priority state**/
+    const [sourceFromWeb, setSource] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [logState, setLogState] = useState(sessionStorage.getItem('token') != null);
-    //const [userInfo,setUserInfo] = useReducer()
+
+    /**Second priority state**/
+
+
+
+    const [savedTitle, setSavedTitle] = useState('saved Image')
+
+    const [memesList, setMemes] = useState([]);
+    const [currentIndex, setIndex] = useState(0);
+    const [error, setError] = useState(null);
+
+
+    const [exportImage, setExportImage] = useState(null);
+
+    async function loadImagesFromWebServer() {
+        fetch('http://localhost:5000/images')
+            .then(res => res.json())
+            .then(result => {
+                setMemes(result);
+                setIsLoaded(true);
+            }, (error) => {
+                console.log(error)
+            })
+    }
+
+    function loadImagesFromImgflip() {
+        fetch("https://api.imgflip.com/get_memes")
+            .then(response => response.json())
+            .then(result => {
+                setMemes(result['data']['memes']);
+                setIsLoaded(true);
+            }, (error) => {
+                console.log(error)
+            });
+    }
+    useEffect(() => {
+        (sourceFromWeb) ? loadImagesFromWebServer() : loadImagesFromImgflip();
+    }, [sourceFromWeb]);
+
 
     return (
         <div className="App">
@@ -38,16 +64,23 @@ function HomePage() {
             </header>
             <div className="leftSidebar"/>
             <main>
-                <Edit
+                <MainDisplay
+                    sourceFromWeb={sourceFromWeb}
+
+                    setSource={setSource}
+                    isLoaded={isLoaded}
+                    memesList={memesList}
+                    currentIndex={currentIndex}
+                    setIndex={setIndex}
                     setExportImage={setExportImage}
                     exportImage={exportImage}
-                    setSavedTitle = {setSavedTitle}
+                    setSavedTitle={setSavedTitle}
                 />
-                <Operations exportImage={exportImage} savedTitle = {savedTitle}/>
+                <Operations
+                    exportImage={exportImage}
+                    savedTitle={savedTitle}
+                />
                 <Comments/>
-                {/*<p>*/}
-                {/*    {'token:'+sessionStorage.getItem('token')}*/}
-                {/*</p>*/}
             </main>
             <div className="rightSidebar"/>
             {/*<footer>*/}
