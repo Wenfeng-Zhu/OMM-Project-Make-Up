@@ -49,46 +49,55 @@ function HomePage() {
                 console.log(error)
             });
     }
+
     useEffect(() => {
         (sourceFromWeb) ? loadImagesFromWebServer() : loadImagesFromImgflip();
     }, [sourceFromWeb]);
 
+    if (!isLoaded) {
+        return <div>Loading...</div>;
+    } else{
+        //setIsLoaded(false);
+        return (
+            <div className="App">
+                <header>
+                    <Header
+                        logState={logState}
+                        setLogState={setLogState}
+                    />
+                </header>
+                <div className="leftSidebar"/>
+                <main>
+                    <MainDisplay
+                        sourceFromWeb={sourceFromWeb}
+                        setSource={setSource}
+                        isLoaded={isLoaded}
+                        setIsLoaded = {setIsLoaded}
+                        memesList={memesList}
+                        currentIndex={currentIndex}
+                        setIndex={setIndex}
 
-    return (
-        <div className="App">
-            <header>
-                <Header
-                    logState={logState}
-                    setLogState={setLogState}
-                />
-            </header>
-            <div className="leftSidebar"/>
-            <main>
-                <MainDisplay
-                    sourceFromWeb={sourceFromWeb}
+                        setExportImage={setExportImage}
+                        exportImage={exportImage}
+                        setSavedTitle={setSavedTitle}
+                    />
+                    <Operations
+                        exportImage={exportImage}
+                        savedTitle={savedTitle}
+                    />
+                    <Comments/>
+                </main>
+                <div className="rightSidebar"/>
+                {/*<footer>*/}
+                {/*    <p>Footer is displaying</p>*/}
+                {/*</footer>*/}
 
-                    setSource={setSource}
-                    isLoaded={isLoaded}
-                    memesList={memesList}
-                    currentIndex={currentIndex}
-                    setIndex={setIndex}
-                    setExportImage={setExportImage}
-                    exportImage={exportImage}
-                    setSavedTitle={setSavedTitle}
-                />
-                <Operations
-                    exportImage={exportImage}
-                    savedTitle={savedTitle}
-                />
-                <Comments/>
-            </main>
-            <div className="rightSidebar"/>
-            {/*<footer>*/}
-            {/*    <p>Footer is displaying</p>*/}
-            {/*</footer>*/}
+            </div>
+        );
+    }
 
-        </div>
-    );
+
+
 }
 
 export default HomePage;

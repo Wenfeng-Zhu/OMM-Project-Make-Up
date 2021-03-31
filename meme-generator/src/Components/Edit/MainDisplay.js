@@ -21,16 +21,17 @@ function MainDisplay(props) {
     });
 
 
-
     if (!props.isLoaded) {
         return <div>Loading...</div>;
-    } else {
+    } else
+    {
         //alert('input text is: '+inputUnit.text);
         return (
             <div className="MainDisplay">
                 <ImageDisplay
                     sourceFromWeb={props.sourceFromWeb}
                     memesList={props.memesList}
+                    isLoaded={props.isLoaded}
                     currentIndex={props.currentIndex}
                     setIndex={props.setIndex}
                     inputUnits={inputUnits}
@@ -39,8 +40,18 @@ function MainDisplay(props) {
                 />
                 <div className='rightEdit'>
                     <div className="SourceButton">
-                        <button onClick={()=>{props.setSource(true)}}>Web Server</button>
-                        <button onClick={()=>{props.setSource(false)}}>Imgflip</button>
+                        <button onClick={() => {
+                            props.setSource(true);
+                            props.setIndex(0);
+                            props.setIsLoaded(false);
+                        }}>Web Server
+                        </button>
+                        <button onClick={() => {
+                            props.setSource(false);
+                            props.setIndex(0);
+                            props.setIsLoaded(false);
+                        }}>Imgflip
+                        </button>
 
                     </div>
                     <div className="inputArea">
