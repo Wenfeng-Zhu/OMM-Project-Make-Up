@@ -15,14 +15,13 @@ function MainImage(props) {
         //setIsLoaded(true);
     }
 
-    function loadImagesFromImgflip(){
-        setImageUrl(props.memesList[props.currentIndex].url);
-        alert(imageUrl);
-        //setIsLoaded(true);
-    }
+    // function loadImagesFromImgflip(){
+    //     setImageUrl(props.memesList[props.currentIndex].url);
+    //     //setIsLoaded(true);
+    // }
 
     useEffect(() => {
-        (props.sourceFromWeb) ? loadImagesFromWebServer() : loadImagesFromImgflip()
+        (props.sourceFromWeb) ? loadImagesFromWebServer() :  setImageUrl(props.memesList[props.currentIndex].url);
         //alert('render time')
     }, [props.sourceFromWeb,props.currentIndex])
 

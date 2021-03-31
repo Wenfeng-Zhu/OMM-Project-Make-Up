@@ -53,16 +53,16 @@ function ImageDisplay(props) {
         props.setExportImage(exportImage.current);
     });
 
-    function loadImagesFromWebServer() {
-        let url = 'http://localhost:5000/upload/' + props.memesList[props.currentIndex].url;
-        //setImageUrl(url);
-        //use the API to increase the number of views
-        fetch('http://localhost:5000/images/' + props.memesList[props.currentIndex]._id).then(error => {
-            console.log(error);
-        })
-        return url;
-        //setIsLoaded(true);
-    }
+    // function loadImagesFromWebServer() {
+    //     let url = 'http://localhost:5000/upload/' + props.memesList[props.currentIndex].url;
+    //     //setImageUrl(url);
+    //     //use the API to increase the number of views
+    //     fetch('http://localhost:5000/images/' + props.memesList[props.currentIndex]._id).then(error => {
+    //         console.log(error);
+    //     })
+    //     return url;
+    //     //setIsLoaded(true);
+    // }
 
 
     if (!props.isLoaded) {
@@ -89,13 +89,13 @@ function ImageDisplay(props) {
                     </div>
                 </div>
                 <div className="displayArea" ref={exportImage}>
-                    {/*<MainImage*/}
-                    {/*    currentIndex = {props.currentIndex}*/}
-                    {/*    memesList = {props.memesList}*/}
-                    {/*    sourceFromWeb = {props.sourceFromWeb}*/}
-                    {/*    isLoaded = {props.isLoaded}*/}
-                    {/*/>*/}
-                    <img className="image" src={(props.sourceFromWeb)?(loadImagesFromWebServer()):(props.memesList[props.currentIndex].url)} alt="Image can not be displayed"/>
+                    <MainImage
+                        currentIndex = {props.currentIndex}
+                        memesList = {props.memesList}
+                        sourceFromWeb = {props.sourceFromWeb}
+                        isLoaded = {props.isLoaded}
+                    />
+                    {/*<img className="image" src={(props.sourceFromWeb)?(loadImagesFromWebServer()):(props.memesList[props.currentIndex].url)} alt="Image can not be displayed"/>*/}
                     <Draggable bounds={'parent'}>
                         <p className={"text_0"}
                            style={{
