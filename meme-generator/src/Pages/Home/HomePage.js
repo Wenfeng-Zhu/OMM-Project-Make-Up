@@ -4,10 +4,14 @@ import Header from '../../Components/Header/Header';
 import MainDisplay from "../../Components/Edit/MainDisplay";
 import Operations from "../../Components/Operations/Operations";
 import Comments from "../../Components/Comments/Comments";
+import LogInDialog from "../../Components/Dialogs/LogIn";
+import RegistrationDialog from "../../Components/Dialogs/Registration";
 
-// const initialUserInfo ={
-//     username:'',
-// }
+const initialUserInfo = {
+    email: '',
+    username: '',
+    password: ''
+}
 
 function HomePage() {
     /**First priority state**/
@@ -16,7 +20,12 @@ function HomePage() {
     const [logState, setLogState] = useState(sessionStorage.getItem('token') != null);
 
     /**Second priority state**/
-
+    //Whether to display the login pop-up window
+    const [showLogIn, setShowLogIn] = useState(false);
+    //Whether to display the registration pop-up window
+    const [showRegistration, setShowRegistration] = useState(false)
+    //set the user information: email-address, username, password
+    const [userInfo, setUserInfo] = useState(initialUserInfo);
 
 
     const [savedTitle, setSavedTitle] = useState('saved Image')
@@ -39,7 +48,7 @@ function HomePage() {
             })
     }
 
-    function loadImagesFromImgflip() {
+    async function loadImagesFromImgflip() {
         fetch("https://api.imgflip.com/get_memes")
             .then(response => response.json())
             .then(result => {
@@ -57,13 +66,14 @@ function HomePage() {
     if (!isLoaded) {
         return <div>Loading...</div>;
     } else{
-        //setIsLoaded(false);
         return (
             <div className="App">
                 <header>
                     <Header
                         logState={logState}
                         setLogState={setLogState}
+                        setShowLogIn = {setShowLogIn}
+                        setShowRegistration = {setShowRegistration}
                     />
                 </header>
                 <div className="leftSidebar"/>
@@ -85,13 +95,28 @@ function HomePage() {
                         exportImage={exportImage}
                         savedTitle={savedTitle}
                     />
-                    <Comments/>
+                    <Comments
+                        logState = {logState}
+                        setShowLogIn = {setShowLogIn}
+                    />
                 </main>
                 <div className="rightSidebar"/>
-                {/*<footer>*/}
-                {/*    <p>Footer is displaying</p>*/}
-                {/*</footer>*/}
 
+                <LogInDialog
+                    logState = {logState}
+                    setLogState = {setLogState}
+                    showLogIn = {showLogIn}
+                    setShowLogIn = {setShowLogIn}
+                    userInfo = {userInfo}
+                    setUserInfo = {setUserInfo}
+                />
+                {/*Dialog of registration*/}
+                <RegistrationDialog
+                    showRegistration = {showRegistration}
+                    setShowRegistration = {setShowRegistration}
+                    userInfo = {userInfo}
+                    setUserInfo = {setUserInfo}
+                />
             </div>
         );
     }

@@ -1,3 +1,14 @@
 .CommentsArea{
+    display: grid;
     background: antiquewhite;
+    grid-template-rows: auto 140px;
+    grid-row-gap: 10px;
+}
+
+.CommentsList{
+    background: coral;
+}
+
+.AddNewComment{
+
 }
