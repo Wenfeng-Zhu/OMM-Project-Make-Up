@@ -37,13 +37,14 @@ function Comments(props) {
     }
 
     useEffect(() => {
-        fetch('http://localhost:5000/images/' + props.currentImageId + '/comments')
-            .then(res => res.json())
-            .then(result => {
-                setCommentsList(result);
-            }, (error) => {
-                console.log(error)
-            })
+        if (props.sourceFromWeb)
+            fetch('http://localhost:5000/images/' + props.currentImageId + '/comments')
+                .then(res => res.json())
+                .then(result => {
+                    setCommentsList(result);
+                }, (error) => {
+                    console.log(error)
+                })
     }, [reloadComments, props.currentImageId])
 
     if (!props.isLoaded) {
@@ -55,12 +56,13 @@ function Comments(props) {
                     <div className="CommentsArea">
                         <div className='CommentsList'>
                             {
-                                (commentsList.length === 0) ? <p>This meme has not been reviewed yet, come to review it!</p> :
+                                (commentsList.length === 0) ?
+                                    <p>This meme has not been reviewed yet, come to review it!</p> :
                                     <>
                                         {
-                                            commentsList.map((item) => {
+                                            commentsList.map((item,index) => {
                                                 return (
-                                                    <div className='commentUnit'>
+                                                    <div key={index} className='commentUnit'>
                                                         <p>{item.username}</p>
                                                         <b/>
                                                         <p>{item.comment}</p>

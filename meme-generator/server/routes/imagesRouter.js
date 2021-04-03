@@ -10,7 +10,7 @@ const CommentModel = require('../models/comment');
 //load all images from database
 router.get("/", async function (req, res, next) {
     // const viewModel = {images: []};
-    await ImageModel.find({}, {}, {sort: {timestamp: -1}}, function (err, images) {
+    await ImageModel.find({owner:'public'}, {}, {sort: {timestamp: -1}}, function (err, images) {
         if (err) {
             console.log(err);
         } else {
@@ -65,7 +65,7 @@ router.get('/:image_id/comments', async function (req, res, next) {
             console.log(err);
         }
         else if (comments) {
-            console.log(comments)
+            //console.log(comments)
             res.send(comments);
         }
         else {
@@ -90,11 +90,12 @@ router.get('/:image_id/comments', async function (req, res, next) {
 });
 
 //upload the image to database
-router.post('/', upload.single('file'), function (req, res, next) {
+router.post('/:email', upload.single('file'), function (req, res, next) {
     let tempPath = req.file.path;
     let imgUrl = req.file.filename;
     let ext = path.extname(req.file.originalname).toLowerCase();
     let targetPath = path.resolve('./server/public/upload/' + imgUrl + ext);
+    console.log(imgUrl);
 
     if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
         fs.rename(tempPath, targetPath, function (err) {
@@ -103,16 +104,18 @@ router.post('/', upload.single('file'), function (req, res, next) {
             } else {
                 const newImg = new ImageModel({
                     name: req.file.originalname.substring(0,req.file.originalname.indexOf('.')),
-                    owner: 'public',
+                    owner: req.params.email,
                     url: imgUrl + ext,
                 })
                 newImg.save(function (err, image) {
                     if (err) {
                         console.log(err);
-                        res.status(500).redirect('http://localhost:3000/admin/imagesList')
+                        res.status(500)
+                            //.redirect('http://localhost:3000/admin/imagesList')
                     }
                 })
-                res.status(200).redirect('http://localhost:3000/admin/imagesList');
+                res.status(200)
+                    //.redirect('http://localhost:3000/admin/imagesList');
             }
         });
     } else {

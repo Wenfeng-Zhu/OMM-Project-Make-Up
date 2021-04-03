@@ -353,7 +353,7 @@ export default function ImagesList() {
                 label="Dense padding"
             />
             <>
-                <form action="http://localhost:5000/images" method="post" encType="multipart/form-data">
+                <form action="http://localhost:5000/images/public" method="post" encType="multipart/form-data">
                     <div className="panel-body form-horizontal">
                         <div className="form-group col-md-12">
                             <label htmlFor="file" className="col-sm-2 control-label">浏览:</label>
