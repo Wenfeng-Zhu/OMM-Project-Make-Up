@@ -96,8 +96,11 @@ function HomePage() {
                         savedTitle={savedTitle}
                     />
                     <Comments
+                        sourceFromWeb = {sourceFromWeb}
                         logState = {logState}
                         setShowLogIn = {setShowLogIn}
+
+                        currentImageId = {memesList[currentIndex]._id}
                     />
                 </main>
                 <div className="rightSidebar"/>

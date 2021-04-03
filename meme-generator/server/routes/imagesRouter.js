@@ -4,8 +4,8 @@ const multer = require('multer')
 const path = require("path");
 const upload = multer({dest: path.join(__dirname, '../public/upload/temp')});
 const fs = require('fs');
-const imageController = require('../controllers/image')
-const ImageModel = require('../models/image')
+const ImageModel = require('../models/image');
+const CommentModel = require('../models/comment');
 
 //load all images from database
 router.get("/", async function (req, res, next) {
@@ -23,7 +23,7 @@ router.get("/", async function (req, res, next) {
 
 //get specific image with image_id
 router.get("/:image_id", function (req, res) {
-    const viewModel = {image: {}, comments: []};
+    //const viewModel = {image: {}, comments: []};
     ImageModel.findOne({_id: req.params.image_id}, function (err, image) {
         if (err) {
             console.log(err);
@@ -31,7 +31,7 @@ router.get("/:image_id", function (req, res) {
         else if (image) {
             // Increase the number of visits to this image
             image.views += 1;
-            viewModel.image = image;
+            //viewModel.image = image;
             image.save();
             res.send('View successfully');
         }
@@ -40,6 +40,24 @@ router.get("/:image_id", function (req, res) {
         }
 
     });
+});
+
+router.post('/:image_id/comment', async function (req, res, next) {
+    const newComment = new CommentModel({
+        image_id: req.body.image_id,
+        email: req.body.email,
+        username: req.body.username,
+        comment: req.body.comment,
+    })
+    await newComment.save(function (err, doc) {
+        if (err) {
+            console.log('save error: ' + err);
+        } else {
+            console.log('save success \n' + doc);
+        }
+    })
+
+    //res.send('The image:comment POST controller');
 });
 
 //upload the image to database
@@ -82,9 +100,7 @@ router.post('/:image_id/like', function (req, res, next) {
     res.send('The image:like POST controller');
 });
 
-router.post('/:image_id/comment', function (req, res, next) {
-    res.send('The image:comment POST controller');
-});
+
 
 
 module.exports = router;
