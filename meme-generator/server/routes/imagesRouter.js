@@ -54,10 +54,39 @@ router.post('/:image_id/comment', async function (req, res, next) {
             console.log('save error: ' + err);
         } else {
             console.log('save success \n' + doc);
+            res.send('The image:comment POST successfully');
         }
     })
+});
 
-    //res.send('The image:comment POST controller');
+router.get('/:image_id/comments', async function (req, res, next) {
+    CommentModel.find({image_id: req.params.image_id},{},{sort: {timestamp: -1}},function (err, comments) {
+        if (err) {
+            console.log(err);
+        }
+        else if (comments) {
+            console.log(comments)
+            res.send(comments);
+        }
+        else {
+            res.json('View failed');
+        }
+
+    })
+    // const newComment = new CommentModel({
+    //     image_id: req.body.image_id,
+    //     email: req.body.email,
+    //     username: req.body.username,
+    //     comment: req.body.comment,
+    // })
+    // await newComment.save(function (err, doc) {
+    //     if (err) {
+    //         console.log('save error: ' + err);
+    //     } else {
+    //         console.log('save success \n' + doc);
+    //         res.send('The image:comment POST successfully');
+    //     }
+    // })
 });
 
 //upload the image to database

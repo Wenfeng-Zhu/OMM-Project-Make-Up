@@ -67,7 +67,7 @@ function ImageDisplay(props) {
 
     if (!props.isLoaded) {
         return <div>Loading...</div>;
-    } else{
+    } else {
         return (
             <div className="imageArea">
                 <div className="scrollBar">
@@ -79,7 +79,7 @@ function ImageDisplay(props) {
                         {props.memesList.map((item, index) => {
                             return (
                                 <img key={index} className="scrollSingleImage" src={
-                                    (props.sourceFromWeb)?('http://localhost:5000/upload/'+item.url):(item.url)
+                                    (props.sourceFromWeb) ? ('http://localhost:5000/upload/' + item.url) : (item.url)
                                 }
                                      alt="Image can not be displayed"
                                      onClick={() => props.setIndex(index)}
@@ -90,10 +90,10 @@ function ImageDisplay(props) {
                 </div>
                 <div className="displayArea" ref={exportImage}>
                     <MainImage
-                        currentIndex = {props.currentIndex}
-                        memesList = {props.memesList}
-                        sourceFromWeb = {props.sourceFromWeb}
-                        isLoaded = {props.isLoaded}
+                        currentIndex={props.currentIndex}
+                        memesList={props.memesList}
+                        sourceFromWeb={props.sourceFromWeb}
+                        isLoaded={props.isLoaded}
                     />
                     {/*<img className="image" src={(props.sourceFromWeb)?(loadImagesFromWebServer()):(props.memesList[props.currentIndex].url)} alt="Image can not be displayed"/>*/}
                     <Draggable bounds={'parent'}>

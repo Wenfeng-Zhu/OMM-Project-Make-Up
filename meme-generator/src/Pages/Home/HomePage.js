@@ -96,6 +96,7 @@ function HomePage() {
                         savedTitle={savedTitle}
                     />
                     <Comments
+                        isLoaded ={isLoaded}
                         sourceFromWeb = {sourceFromWeb}
                         logState = {logState}
                         setShowLogIn = {setShowLogIn}
