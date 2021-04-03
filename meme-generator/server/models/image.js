@@ -8,7 +8,7 @@ const ImageSchema = new Schema({
     owner: {type: String},
     url: {type: String},
     views: {type: Number, default: 0},
-    likes: {type: Number, default: 0},
+    likes: {type: Array, default: []},
     timestamp: {type: Date, default: Date.now},
 });
 

@@ -28,6 +28,7 @@ function HomePage() {
     const [userInfo, setUserInfo] = useState(initialUserInfo);
 
 
+
     const [savedTitle, setSavedTitle] = useState('saved Image')
 
     const [memesList, setMemes] = useState([]);
@@ -92,8 +93,10 @@ function HomePage() {
                         setSavedTitle={setSavedTitle}
                     />
                     <Operations
+                        isLoaded = {isLoaded}
                         exportImage={exportImage}
                         savedTitle={savedTitle}
+                        currentImageId = {memesList[currentIndex]._id}
                     />
                     <Comments
                         isLoaded ={isLoaded}

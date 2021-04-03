@@ -1,39 +1,78 @@
-import React, {} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Operations.css';
 import domToImage from 'dom-to-image';
 import {saveAs} from 'file-saver';
 import jwtDecode from "jwt-decode";
+import {Button} from "@material-ui/core";
 
 function Operations(props) {
 
-    return (
-        <div className="OperationsArea">
-            <button onClick={() => {
-                //alert(props.exportImage.title)
-                domToImage.toBlob(props.exportImage, null).then((blob) => {
-                    saveAs(blob, props.savedTitle)
-                })
-            }}>Download
-            </button>
-            <button onClick={() => {
-                domToImage.toBlob(props.exportImage, null).then(function (blob){
-                    let formData = new FormData();
-                    formData.set('file', blob, props.savedTitle+'.png');
-                    let xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'http://localhost:5000/images/'+jwtDecode(sessionStorage.getItem('token')).email, true);
-                    xhr.send(formData);
-                })
+    //whether the user logged now clicked the like button
+    const [liked,setLiked] = useState(false);
+    function checkLiked(){
+        fetch('http://localhost:5000/images/'+props.currentImageId+'/like/'+jwtDecode(sessionStorage.getItem('token')).email)
+            .then(res => res.json())
+            .then(result => {
+                setLiked(result);
+            }, (error) => {
+                console.log(error)
+            })
+    }
+    if (!props.isLoaded) {
+        return <div>Loading...</div>;
+    } else {
+        return (
+            <div className="OperationsArea">
+                <button onClick={() => {
+                    //alert(props.exportImage.title)
+                    domToImage.toBlob(props.exportImage, null).then((blob) => {
+                        saveAs(blob, props.savedTitle)
+                    })
+                }}>Download
+                </button>
+                <button onClick={() => {
+                    domToImage.toBlob(props.exportImage, null).then(function (blob) {
+                        let formData = new FormData();
+                        formData.set('file', blob, props.savedTitle + '.png');
+                        let xhr = new XMLHttpRequest();
+                        xhr.open('POST', 'http://localhost:5000/images/' + jwtDecode(sessionStorage.getItem('token')).email, true);
+                        xhr.send(formData);
+                    })
+                }}>
+                    Save
+                </button>
+                <Button
+                    variant="contained"
+                    onClick={() => {
+                    let upload = {email: jwtDecode(sessionStorage.getItem('token')).email};
+                    fetch('http://localhost:5000/images/' + props.currentImageId + '/like', {
+                        method: 'POST',
+                        mode: 'cors',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(upload)
+                    }).then(function (res) {
+                        if (res.ok) {
+                            checkLiked();
+                            console.log('POST successfully！')
+                        } else {
+                            console.log('require is failed！');
+                        }
+                    }, function (e) {
+                        console.log('require is failed: ' + e);
+                    })
+                }}
+                        color={(liked)?"primary":"secondary"}
+                >
+                    like
+                </Button>
+                {/*<>*/}
+                {/*    {props.exportImage}*/}
+                {/*</>*/}
 
+            </div>
+        )
+    }
 
-            }}>
-                Save
-            </button>
-            {/*<>*/}
-            {/*    {props.exportImage}*/}
-            {/*</>*/}
-
-        </div>
-    )
 }
 
 export default Operations;

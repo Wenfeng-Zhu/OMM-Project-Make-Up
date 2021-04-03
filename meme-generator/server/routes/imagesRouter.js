@@ -10,7 +10,7 @@ const CommentModel = require('../models/comment');
 //load all images from database
 router.get("/", async function (req, res, next) {
     // const viewModel = {images: []};
-    await ImageModel.find({owner:'public'}, {}, {sort: {timestamp: -1}}, function (err, images) {
+    await ImageModel.find({owner: 'public'}, {}, {sort: {timestamp: -1}}, function (err, images) {
         if (err) {
             console.log(err);
         } else {
@@ -27,15 +27,13 @@ router.get("/:image_id", function (req, res) {
     ImageModel.findOne({_id: req.params.image_id}, function (err, image) {
         if (err) {
             console.log(err);
-        }
-        else if (image) {
+        } else if (image) {
             // Increase the number of visits to this image
             image.views += 1;
             //viewModel.image = image;
             image.save();
             res.send('View successfully');
-        }
-        else {
+        } else {
             res.send('View failed');
         }
 
@@ -60,15 +58,13 @@ router.post('/:image_id/comment', async function (req, res, next) {
 });
 
 router.get('/:image_id/comments', async function (req, res, next) {
-    CommentModel.find({image_id: req.params.image_id},{},{sort: {timestamp: -1}},function (err, comments) {
+    CommentModel.find({image_id: req.params.image_id}, {}, {sort: {timestamp: -1}}, function (err, comments) {
         if (err) {
             console.log(err);
-        }
-        else if (comments) {
+        } else if (comments) {
             //console.log(comments)
             res.send(comments);
-        }
-        else {
+        } else {
             res.json('View failed');
         }
 
@@ -103,7 +99,7 @@ router.post('/:email', upload.single('file'), function (req, res, next) {
                 console.log(err);
             } else {
                 const newImg = new ImageModel({
-                    name: req.file.originalname.substring(0,req.file.originalname.indexOf('.')),
+                    name: req.file.originalname.substring(0, req.file.originalname.indexOf('.')),
                     owner: req.params.email,
                     url: imgUrl + ext,
                 })
@@ -111,11 +107,11 @@ router.post('/:email', upload.single('file'), function (req, res, next) {
                     if (err) {
                         console.log(err);
                         res.status(500)
-                            //.redirect('http://localhost:3000/admin/imagesList')
+                        //.redirect('http://localhost:3000/admin/imagesList')
                     }
                 })
                 res.status(200)
-                    //.redirect('http://localhost:3000/admin/imagesList');
+                //.redirect('http://localhost:3000/admin/imagesList');
             }
         });
     } else {
@@ -128,11 +124,38 @@ router.post('/:email', upload.single('file'), function (req, res, next) {
     }
 });
 
-router.post('/:image_id/like', function (req, res, next) {
-    res.send('The image:like POST controller');
+router.post('/:image_id/like', async function (req, res, next) {
+    ImageModel.findOne({_id: req.params.image_id}, async function (err, image) {
+        if (err) {
+            console.log(err);
+        } else if (image) {
+            // Increase the number of visits to this image
+            if (!image.likes.includes(req.body.email)) {
+                image.likes.push(req.body.email);
+            } else {
+                image.likes.splice(image.likes.indexOf(req.body.email), 1)
+            }
+            //viewModel.image = image;
+            await image.save();
+            res.send('Add like successfully');
+        } else {
+            res.send('View failed');
+        }
+    });
 });
 
-
+router.get('/:image_id/like/:email', function (req, res, next) {
+    ImageModel.findOne({_id: req.params.image_id}, function (err, image) {
+        if (err) {
+            console.log(err);
+        } else if (image) {
+            const liked = image.likes.includes(req.params.email)
+            res.status(200).send(liked);
+        } else {
+            res.send('View failed');
+        }
+    });
+});
 
 
 module.exports = router;
