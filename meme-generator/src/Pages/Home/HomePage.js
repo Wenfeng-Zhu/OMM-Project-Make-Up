@@ -71,6 +71,7 @@ function HomePage() {
             <div className="App">
                 <header>
                     <Header
+                        isLoaded = {isLoaded}
                         logState={logState}
                         setLogState={setLogState}
                         setShowLogIn = {setShowLogIn}
@@ -94,6 +95,7 @@ function HomePage() {
                     />
                     <Operations
                         isLoaded = {isLoaded}
+                        logState = {logState}
                         exportImage={exportImage}
                         savedTitle={savedTitle}
                         currentImageId = {memesList[currentIndex]._id}

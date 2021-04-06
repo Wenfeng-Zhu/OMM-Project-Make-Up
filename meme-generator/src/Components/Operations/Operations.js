@@ -3,14 +3,22 @@ import './Operations.css';
 import domToImage from 'dom-to-image';
 import {saveAs} from 'file-saver';
 import jwtDecode from "jwt-decode";
-import {Button} from "@material-ui/core";
+import {Button, Snackbar} from "@material-ui/core";
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 
 function Operations(props) {
+    const [warning, showWarning] = useState(false);
 
     //whether the user logged now clicked the like button
-    const [liked,setLiked] = useState(false);
-    function checkLiked(){
-        fetch('http://localhost:5000/images/'+props.currentImageId+'/like/'+jwtDecode(sessionStorage.getItem('token')).email)
+    const [liked, setLiked] = useState(false);
+
+    function checkLiked() {
+        fetch('http://localhost:5000/images/' + props.currentImageId + '/like/' + jwtDecode(sessionStorage.getItem('token')).email)
             .then(res => res.json())
             .then(result => {
                 setLiked(result);
@@ -18,6 +26,22 @@ function Operations(props) {
                 console.log(error)
             })
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        showWarning(false);
+    };
+    useEffect(() => {
+        if (props.logState === false) {
+            setLiked(false);
+        } else {
+            checkLiked();
+        }
+    }, [props.logState])
+
+
     if (!props.isLoaded) {
         return <div>Loading...</div>;
     } else {
@@ -44,30 +68,39 @@ function Operations(props) {
                 <Button
                     variant="contained"
                     onClick={() => {
-                    let upload = {email: jwtDecode(sessionStorage.getItem('token')).email};
-                    fetch('http://localhost:5000/images/' + props.currentImageId + '/like', {
-                        method: 'POST',
-                        mode: 'cors',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(upload)
-                    }).then(function (res) {
-                        if (res.ok) {
-                            checkLiked();
-                            console.log('POST successfully！')
+                        if (props.logState) {
+                            let upload = {email: jwtDecode(sessionStorage.getItem('token')).email};
+                            fetch('http://localhost:5000/images/' + props.currentImageId + '/like', {
+                                method: 'POST',
+                                mode: 'cors',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify(upload)
+                            }).then(function (res) {
+                                if (res.ok) {
+                                    checkLiked();
+                                    console.log('POST successfully！')
+                                } else {
+                                    console.log('require is failed！');
+                                }
+                            }, function (e) {
+                                console.log('require is failed: ' + e);
+                            })
                         } else {
-                            console.log('require is failed！');
+                            showWarning(true);
                         }
-                    }, function (e) {
-                        console.log('require is failed: ' + e);
-                    })
-                }}
-                        color={(liked)?"primary":"secondary"}
+
+                    }}
+                    color={(liked) ? "primary" : "secondary"}
                 >
                     like
                 </Button>
-                {/*<>*/}
-                {/*    {props.exportImage}*/}
-                {/*</>*/}
+
+                <Snackbar open={warning} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="warning">
+                        You need log in first!
+                    </Alert>
+                </Snackbar>
+
 
             </div>
         )
