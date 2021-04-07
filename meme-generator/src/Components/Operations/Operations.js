@@ -39,7 +39,7 @@ function Operations(props) {
         } else {
             checkLiked();
         }
-    }, [props.logState])
+    }, [props.logState,props.currentImageId])
 
 
     if (!props.isLoaded) {

@@ -84,7 +84,7 @@ function LogInDialog(props){
                             return (response.json()).then((json) => {
                                 //setUserInfo({...userInfo,username: json.user.username})
                                 //setLoggedIn(true);
-                                sessionStorage.setItem('token',json.token)
+                                sessionStorage.setItem('token',json.data)
                                 props.setShowLogIn(false);
                                 props.setLogState(true);
                             })

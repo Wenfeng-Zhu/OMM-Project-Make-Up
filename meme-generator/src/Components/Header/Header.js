@@ -1,5 +1,7 @@
 import React, {useRef, useState} from "react";
 import './Header.css';
+import Profile from "../../Pages/User Menu/Profile";
+import SavedMemes from "../../Pages/User Menu/SavedMemes";
 import {IconContext} from "react-icons";
 import jwtDecode from "jwt-decode";
 import LogInDialog from "../Dialogs/LogIn";
@@ -12,6 +14,7 @@ import SendIcon from '@material-ui/icons/Send';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import BurstModeIcon from '@material-ui/icons/BurstMode';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 
 
 const StyledMenu = withStyles({
@@ -36,6 +39,21 @@ const StyledMenuItem = withStyles((theme) => ({
         },
     },
 }))(MenuItem);
+
+const UserMenu = [
+    {
+        title: 'My Profile',
+        path: '/profile',
+        className: 'menu-item',
+        icon: <AssignmentIndIcon fontSize="small"/>
+    },
+    {
+        title: 'Saved Memes',
+        path: '/savedMemes',
+        className: 'menu-item',
+        icon: <BurstModeIcon fontSize="small"/>
+    }
+]
 
 function Header(props) {
     const [showUserMenu, setShowUserMenu] = useState(false);
@@ -91,18 +109,20 @@ function Header(props) {
                                             setShowUserMenu(false);
                                         }}
                                     >
-                                        <StyledMenuItem>
-                                            <ListItemIcon>
-                                                <AssignmentIndIcon fontSize="small"/>
-                                            </ListItemIcon>
-                                            <ListItemText primary="My Profile"/>
-                                        </StyledMenuItem>
-                                        <StyledMenuItem>
-                                            <ListItemIcon>
-                                                <BurstModeIcon fontSize="small"/>
-                                            </ListItemIcon>
-                                            <ListItemText primary="Saved Memes"/>
-                                        </StyledMenuItem>
+                                        {UserMenu.map((item, index) => {
+                                            return (
+                                                <li key={index} className={item.className}>
+                                                    <Link to={item.path}>
+                                                        <StyledMenuItem>
+                                                            <ListItemIcon>
+                                                                {item.icon}
+                                                            </ListItemIcon>
+                                                            <ListItemText primary={item.title}/>
+                                                        </StyledMenuItem>
+                                                    </Link>
+                                                </li>
+                                            )
+                                        })}
                                         <StyledMenuItem onClick={() => {
                                             sessionStorage.removeItem('token')
                                             props.setLogState(false);

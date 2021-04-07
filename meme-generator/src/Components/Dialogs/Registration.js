@@ -165,7 +165,6 @@ function RegistrationDialog(props){
                             }, function (e) {
                                 console.log('require is failed: ' + e);
                             })
-                            alert('registration successfully');
                         }
                     }
                 }}>

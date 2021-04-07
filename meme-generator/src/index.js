@@ -5,6 +5,8 @@ import HomePage from './Pages/Home/HomePage';
 import Admin from './Pages/Admin/Admin'
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import Profile from "./Pages/User Menu/Profile";
+import SavedMemes from "./Pages/User Menu/SavedMemes";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,6 +15,8 @@ ReactDOM.render(
               <Switch>
                   <Route path={'/'} exact component = {HomePage}/>
                   <Route path={'/admin'} component={Admin}/>
+                  <Route path='/profile' component={Profile}/>
+                  <Route path='/savedMemes' component={SavedMemes}/>
               </Switch>
           </Router>
       </>

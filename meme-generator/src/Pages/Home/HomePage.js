@@ -68,7 +68,7 @@ function HomePage() {
         return <div>Loading...</div>;
     } else{
         return (
-            <div className="App">
+            <div className="HomePage">
                 <header>
                     <Header
                         isLoaded = {isLoaded}

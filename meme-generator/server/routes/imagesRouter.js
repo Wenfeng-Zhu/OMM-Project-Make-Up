@@ -145,6 +145,7 @@ router.post('/:image_id/like', async function (req, res, next) {
 });
 
 router.get('/:image_id/like/:email', function (req, res, next) {
+    console.log(req.headers['Authorization']);
     ImageModel.findOne({_id: req.params.image_id}, function (err, image) {
         if (err) {
             console.log(err);

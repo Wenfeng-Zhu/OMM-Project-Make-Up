@@ -1,0 +1,15 @@
+.ProfilePage{
+    background: floralwhite;
+    display: grid;
+    grid-template-columns: 30% auto 30%;
+    height: 100vh;
+}
+.left-sidebar {
+    grid-column: 1 / 2;
+}
+.userInfo{
+    background: lightgray;
+}
+.right-sidebar {
+    grid-column: 3 / 4;
+}
