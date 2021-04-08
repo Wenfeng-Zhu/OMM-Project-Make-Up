@@ -98,6 +98,7 @@ function HomePage() {
                         logState = {logState}
                         exportImage={exportImage}
                         savedTitle={savedTitle}
+                        currentMeme = {memesList[currentIndex]}
                         currentImageId = {memesList[currentIndex]._id}
                     />
                     <Comments

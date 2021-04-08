@@ -3,16 +3,26 @@ import './Operations.css';
 import domToImage from 'dom-to-image';
 import {saveAs} from 'file-saver';
 import jwtDecode from "jwt-decode";
-import {Button, Snackbar} from "@material-ui/core";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Paper,
+    Snackbar,
+    Typography
+} from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
+import Chart from "../Others/Chart";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-
 function Operations(props) {
     const [warning, showWarning] = useState(false);
+    const [showChart, setShowChart] = useState(false);
 
     //whether the user logged now clicked the like button
     const [liked, setLiked] = useState(false);
@@ -32,6 +42,7 @@ function Operations(props) {
             return;
         }
         showWarning(false);
+        setShowChart(false);
     };
     useEffect(() => {
         if (props.logState === false) {
@@ -39,7 +50,7 @@ function Operations(props) {
         } else {
             checkLiked();
         }
-    }, [props.logState,props.currentImageId])
+    }, [props.logState, props.currentImageId])
 
 
     if (!props.isLoaded) {
@@ -48,6 +59,10 @@ function Operations(props) {
         return (
             <div className="OperationsArea">
                 <button onClick={() => {
+                    setShowChart(true)
+                }}>Info
+                </button>
+                <button onClick={() => {
                     //alert(props.exportImage.title)
                     domToImage.toBlob(props.exportImage, null).then((blob) => {
                         saveAs(blob, props.savedTitle)
@@ -55,8 +70,8 @@ function Operations(props) {
                 }}>Download
                 </button>
                 <button onClick={() => {
-                    let confirm =window.confirm('Are You sure to save the image?');
-                    if (confirm){
+                    let confirm = window.confirm('Are You sure to save the image?');
+                    if (confirm) {
                         domToImage.toBlob(props.exportImage, null).then(function (blob) {
                             let formData = new FormData();
                             formData.set('file', blob, props.savedTitle + '.png');
@@ -98,6 +113,23 @@ function Operations(props) {
                 >
                     like
                 </Button>
+
+                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={showChart}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                        Meme Info
+                    </DialogTitle>
+                    <DialogContent dividers>
+                        <Chart
+                            data={
+                                [
+                                    {genre: 'Views', sold: props.currentMeme.views},
+                                    {genre: 'Likes', sold: props.currentMeme.likes.length}
+                                ]
+                            }
+                        />
+
+                    </DialogContent>
+                </Dialog>
 
                 <Snackbar open={warning} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="warning">
