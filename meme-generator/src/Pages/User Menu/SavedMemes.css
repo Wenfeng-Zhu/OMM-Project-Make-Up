@@ -1,0 +1,42 @@
+.SavedMemesPage{
+    background: floralwhite;
+    display: grid;
+    grid-template-columns: 30% auto 30%;
+    height: 100vh;
+}
+.left-sidebar {
+    grid-column: 1 / 2;
+}
+.SavedMemes{
+    background: lightgray;
+}
+.right-sidebar {
+    grid-column: 3 / 4;
+}
+
+.userScrollBar{
+    display: grid;
+    height: 120px;
+}
+.imageTitle{
+    height: 20px;
+    font-weight: bold;
+}
+.userScrollImages{
+    height: 100%;
+    display: inline-block;
+    overflow: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+.userSingleImage{
+    height: 100%;
+    display: inline-block;
+    border: 2px solid #000;
+    margin-right: 3px;
+}
+.imageDisplay{
+    display: grid;
+    justify-items: center;
+    grid-template-columns: auto 20%;
+}

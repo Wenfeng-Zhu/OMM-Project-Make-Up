@@ -16,8 +16,17 @@ router.get("/", async function (req, res, next) {
         } else {
             res.json(images);
         }
-        //viewModel.images = images;
-
+    })
+});
+//load all images which were saved by the user
+router.get("/:email", async function (req, res, next) {
+    // const viewModel = {images: []};
+    await ImageModel.find({owner: req.params.email}, {}, {sort: {timestamp: -1}}, function (err, images) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(images);
+        }
     })
 });
 
@@ -69,20 +78,6 @@ router.get('/:image_id/comments', async function (req, res, next) {
         }
 
     })
-    // const newComment = new CommentModel({
-    //     image_id: req.body.image_id,
-    //     email: req.body.email,
-    //     username: req.body.username,
-    //     comment: req.body.comment,
-    // })
-    // await newComment.save(function (err, doc) {
-    //     if (err) {
-    //         console.log('save error: ' + err);
-    //     } else {
-    //         console.log('save success \n' + doc);
-    //         res.send('The image:comment POST successfully');
-    //     }
-    // })
 });
 
 //upload the image to database
@@ -91,7 +86,6 @@ router.post('/:email', upload.single('file'), function (req, res, next) {
     let imgUrl = req.file.filename;
     let ext = path.extname(req.file.originalname).toLowerCase();
     let targetPath = path.resolve('./server/public/upload/' + imgUrl + ext);
-    console.log(imgUrl);
 
     if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
         fs.rename(tempPath, targetPath, function (err) {
@@ -106,11 +100,11 @@ router.post('/:email', upload.single('file'), function (req, res, next) {
                 newImg.save(function (err, image) {
                     if (err) {
                         console.log(err);
-                        res.status(500)
+                        res.status(500).send('It is failed to save image to the db')
                         //.redirect('http://localhost:3000/admin/imagesList')
                     }
                 })
-                res.status(200)
+                res.send('saved successfully')
                 //.redirect('http://localhost:3000/admin/imagesList');
             }
         });
@@ -122,6 +116,25 @@ router.post('/:email', upload.single('file'), function (req, res, next) {
             res.json(500, {error: 'Only image files are allowed to be uploaded.'});
         });
     }
+});
+
+//delete the image which was saved in web
+router.post('/:email/delete', function (req, res, next) {
+    ImageModel.findOne({_id:req.body._id},async function (err, image) {
+        if (err) {
+            console.log(err);
+        } else if (image) {
+            fs.unlink(path.resolve('./server/public/upload/'+image.url), function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            await image.remove();
+            res.send('The image was deleted from Mongodb and Web-Server');
+        } else {
+            res.send('Failed');
+        }
+    })
 });
 
 router.post('/:image_id/like', async function (req, res, next) {

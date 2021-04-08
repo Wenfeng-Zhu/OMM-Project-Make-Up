@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import './Profile.css'
 import {
     Button, FormControl,
@@ -6,9 +6,8 @@ import {
     List,
     ListItem,
     ListItemIcon,
-    ListItemSecondaryAction,
     ListItemText,
-    makeStyles, Snackbar, TextField
+    makeStyles, Snackbar, TextField,
 } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import EmailIcon from "@material-ui/icons/Email";
@@ -19,6 +18,8 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import LockIcon from "@material-ui/icons/Lock";
 import MuiAlert from "@material-ui/lab/Alert";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
+import HomeIcon from '@material-ui/icons/Home';
+import {Link} from "react-router-dom";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -74,7 +75,16 @@ function Profile() {
     return (
         <div className='ProfilePage'>
             <div className="leftSidebar"/>
-            <div className='userInfo'>
+            <div className={classes.root}>
+                <Link to={'/'}>
+                    <Button
+                        variant="contained"
+                        color="default"
+                        size="small"
+                        className={classes.Button}
+                        startIcon={<HomeIcon/>}
+                    >Home</Button>
+                </Link>
                 <List className={classes.root}>
                     <ListItem>
                         <ListItemIcon>
