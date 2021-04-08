@@ -2,10 +2,18 @@ import React, {useEffect, useRef, useState} from 'react';
 import Draggable from 'react-draggable';
 import './ImageDisplay.css';
 import MainImage from "./MainImage";
-
+import {ToggleButton, ToggleButtonGroup} from "@material-ui/lab";
+import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
+import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
+import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
+import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
+import HistoryIcon from '@material-ui/icons/History';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 
 function ImageDisplay(props) {
     const exportImage = useRef(null);
+
 
     const [textsParameter_0, setTextsParameter_0] = useState({
         index: 0,
@@ -53,18 +61,6 @@ function ImageDisplay(props) {
         props.setExportImage(exportImage.current);
     });
 
-    // function loadImagesFromWebServer() {
-    //     let url = 'http://localhost:5000/upload/' + props.memesList[props.currentIndex].url;
-    //     //setImageUrl(url);
-    //     //use the API to increase the number of views
-    //     fetch('http://localhost:5000/images/' + props.memesList[props.currentIndex]._id).then(error => {
-    //         console.log(error);
-    //     })
-    //     return url;
-    //     //setIsLoaded(true);
-    // }
-
-
     if (!props.isLoaded) {
         return <div>Loading...</div>;
     } else {
@@ -72,9 +68,33 @@ function ImageDisplay(props) {
             <div className="imageArea">
                 <div className="scrollBar">
                     {/*The length of memesList is{memesList.length};*/}
-                    <p className="imageTitle">
-                        {props.memesList[props.currentIndex].name}
-                    </p>
+                    <div className='topBar'>
+                        <p className="imageTitle">
+                            {props.memesList[props.currentIndex].name}
+                        </p>
+                        <ToggleButtonGroup
+                            className='filtering'
+                            value={props.filter}
+                            exclusive
+                            onChange={(event, filtering) => {
+                                if (filtering !== null) {
+                                    props.setFilter(filtering);
+                                }
+
+                            }}
+                        >
+                            <ToggleButton value="timestamp" disabled={!props.sourceFromWeb}>
+                                <HistoryIcon/>
+                            </ToggleButton>
+                            <ToggleButton value="views" disabled={!props.sourceFromWeb}>
+                                <VisibilityIcon/>
+                            </ToggleButton>
+                            <ToggleButton value="likes" disabled={!props.sourceFromWeb}>
+                                <ThumbUpAltIcon/>
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </div>
+
                     <div className="scrollImages">
                         {props.memesList.map((item, index) => {
                             return (

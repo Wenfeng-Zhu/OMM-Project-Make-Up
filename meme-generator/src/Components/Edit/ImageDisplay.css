@@ -8,6 +8,14 @@
     display: grid;
     height: 120px;
 }
+.topBar{
+    display: grid;
+    grid-template-columns: auto 200px;
+    align-items: center;
+}
+.filtering{
+    height: 80%;
+}
 .imageTitle{
     height: 20px;
     font-weight: bold;

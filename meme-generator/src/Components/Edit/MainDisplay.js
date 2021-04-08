@@ -5,6 +5,12 @@ import ImageDisplay from "./ImageDisplay";
 import TextInput from "./TextInput";
 import ReactDOM from 'react-dom';
 import Draggable from "react-draggable";
+import {ToggleButton, ToggleButtonGroup} from "@material-ui/lab";
+import HistoryIcon from "@material-ui/icons/History";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import StorageIcon from '@material-ui/icons/Storage';
+import WebIcon from '@material-ui/icons/Web';
 
 function MainDisplay(props) {
 
@@ -23,13 +29,14 @@ function MainDisplay(props) {
 
     if (!props.isLoaded) {
         return <div>Loading...</div>;
-    } else
-    {
+    } else {
         //alert('input text is: '+inputUnit.text);
         return (
             <div className="MainDisplay">
                 <ImageDisplay
                     sourceFromWeb={props.sourceFromWeb}
+                    filter = {props.filter}
+                    setFilter = {props.setFilter}
                     memesList={props.memesList}
                     isLoaded={props.isLoaded}
                     currentIndex={props.currentIndex}
@@ -40,18 +47,42 @@ function MainDisplay(props) {
                 />
                 <div className='rightEdit'>
                     <div className="SourceButton">
-                        <button onClick={() => {
-                            props.setSource(true);
-                            props.setIndex(0);
-                            props.setIsLoaded(false);
-                        }}>Web Server
-                        </button>
-                        <button onClick={() => {
-                            props.setSource(false);
-                            props.setIndex(0);
-                            props.setIsLoaded(false);
-                        }}>Imgflip
-                        </button>
+                        <ToggleButtonGroup
+                            className='filtering'
+                            value={props.sourceFromWeb}
+                            exclusive
+                            onChange={(event, newSource) => {
+                                if (newSource !== null) {
+                                    props.setSource(newSource);
+                                    props.setIndex(0);
+                                    props.setIsLoaded(false)
+                                }
+
+                            }}
+                            aria-label="web source"
+                        >
+                            <ToggleButton value={true}>
+                                <StorageIcon/> Web
+                            </ToggleButton>
+                            <ToggleButton value={false}>
+                                <WebIcon/> Imgflip
+                            </ToggleButton>
+                            {/*<ToggleButton value="justify" aria-label="justified" disabled>*/}
+                            {/*    <FormatAlignJustifyIcon />*/}
+                            {/*</ToggleButton>*/}
+                        </ToggleButtonGroup>
+                        {/*<button onClick={() => {*/}
+                        {/*    props.setSource(true);*/}
+                        {/*    props.setIndex(0);*/}
+                        {/*    props.setIsLoaded(false);*/}
+                        {/*}}>Web Server*/}
+                        {/*</button>*/}
+                        {/*<button onClick={() => {*/}
+                        {/*    props.setSource(false);*/}
+                        {/*    props.setIndex(0);*/}
+                        {/*    props.setIsLoaded(false);*/}
+                        {/*}}>Imgflip*/}
+                        {/*</button>*/}
 
                     </div>
                     <div className="inputArea">

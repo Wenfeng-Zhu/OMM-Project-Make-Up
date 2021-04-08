@@ -20,13 +20,14 @@ function HomePage() {
     const [logState, setLogState] = useState(sessionStorage.getItem('token') != null);
 
     /**Second priority state**/
-    //Whether to display the login pop-up window
+        //Whether to display the login pop-up window
     const [showLogIn, setShowLogIn] = useState(false);
     //Whether to display the registration pop-up window
     const [showRegistration, setShowRegistration] = useState(false)
     //set the user information: email-address, username, password
     const [userInfo, setUserInfo] = useState(initialUserInfo);
-
+    //
+    const [filter, setFilter] = useState('timestamp');
 
 
     const [savedTitle, setSavedTitle] = useState('saved Image')
@@ -39,7 +40,7 @@ function HomePage() {
     const [exportImage, setExportImage] = useState(null);
 
     async function loadImagesFromWebServer() {
-        fetch('http://localhost:5000/images')
+        fetch('http://localhost:5000/images/'+filter)
             .then(res => res.json())
             .then(result => {
                 setMemes(result);
@@ -50,10 +51,12 @@ function HomePage() {
     }
 
     async function loadImagesFromImgflip() {
-        fetch("https://api.imgflip.com/get_memes")
+        //alert(filter)
+        fetch("https://api.imgflip.com/get_memes", )
             .then(response => response.json())
             .then(result => {
                 setMemes(result['data']['memes']);
+                setIndex(0);
                 setIsLoaded(true);
             }, (error) => {
                 console.log(error)
@@ -62,20 +65,20 @@ function HomePage() {
 
     useEffect(() => {
         (sourceFromWeb) ? loadImagesFromWebServer() : loadImagesFromImgflip();
-    }, [sourceFromWeb]);
+    }, [sourceFromWeb,filter]);
 
     if (!isLoaded) {
         return <div>Loading...</div>;
-    } else{
+    } else {
         return (
             <div className="HomePage">
                 <header>
                     <Header
-                        isLoaded = {isLoaded}
+                        isLoaded={isLoaded}
                         logState={logState}
                         setLogState={setLogState}
-                        setShowLogIn = {setShowLogIn}
-                        setShowRegistration = {setShowRegistration}
+                        setShowLogIn={setShowLogIn}
+                        setShowRegistration={setShowRegistration}
                     />
                 </header>
                 <div className="leftSidebar"/>
@@ -84,7 +87,9 @@ function HomePage() {
                         sourceFromWeb={sourceFromWeb}
                         setSource={setSource}
                         isLoaded={isLoaded}
-                        setIsLoaded = {setIsLoaded}
+                        setIsLoaded={setIsLoaded}
+                        filter={filter}
+                        setFilter={setFilter}
                         memesList={memesList}
                         currentIndex={currentIndex}
                         setIndex={setIndex}
@@ -94,43 +99,43 @@ function HomePage() {
                         setSavedTitle={setSavedTitle}
                     />
                     <Operations
-                        isLoaded = {isLoaded}
-                        logState = {logState}
+                        sourceFromWeb={sourceFromWeb}
+                        isLoaded={isLoaded}
+                        logState={logState}
                         exportImage={exportImage}
                         savedTitle={savedTitle}
-                        currentMeme = {memesList[currentIndex]}
-                        currentImageId = {memesList[currentIndex]._id}
+                        currentMeme={memesList[currentIndex]}
+                        currentImageId={memesList[currentIndex]._id}
                     />
                     <Comments
-                        isLoaded ={isLoaded}
-                        sourceFromWeb = {sourceFromWeb}
-                        logState = {logState}
-                        setShowLogIn = {setShowLogIn}
+                        isLoaded={isLoaded}
+                        sourceFromWeb={sourceFromWeb}
+                        logState={logState}
+                        setShowLogIn={setShowLogIn}
 
-                        currentImageId = {memesList[currentIndex]._id}
+                        currentImageId={memesList[currentIndex]._id}
                     />
                 </main>
                 <div className="rightSidebar"/>
 
                 <LogInDialog
-                    logState = {logState}
-                    setLogState = {setLogState}
-                    showLogIn = {showLogIn}
-                    setShowLogIn = {setShowLogIn}
-                    userInfo = {userInfo}
-                    setUserInfo = {setUserInfo}
+                    logState={logState}
+                    setLogState={setLogState}
+                    showLogIn={showLogIn}
+                    setShowLogIn={setShowLogIn}
+                    userInfo={userInfo}
+                    setUserInfo={setUserInfo}
                 />
                 {/*Dialog of registration*/}
                 <RegistrationDialog
-                    showRegistration = {showRegistration}
-                    setShowRegistration = {setShowRegistration}
-                    userInfo = {userInfo}
-                    setUserInfo = {setUserInfo}
+                    showRegistration={showRegistration}
+                    setShowRegistration={setShowRegistration}
+                    userInfo={userInfo}
+                    setUserInfo={setUserInfo}
                 />
             </div>
         );
     }
-
 
 
 }

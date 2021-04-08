@@ -58,10 +58,10 @@ function Operations(props) {
     } else {
         return (
             <div className="OperationsArea">
-                <button onClick={() => {
+                <Button disabled={!props.sourceFromWeb} variant="contained" onClick={() => {
                     setShowChart(true)
                 }}>Info
-                </button>
+                </Button>
                 <button onClick={() => {
                     //alert(props.exportImage.title)
                     domToImage.toBlob(props.exportImage, null).then((blob) => {
@@ -114,22 +114,26 @@ function Operations(props) {
                     like
                 </Button>
 
-                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={showChart}>
-                    <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        Meme Info
-                    </DialogTitle>
-                    <DialogContent dividers>
-                        <Chart
-                            data={
-                                [
-                                    {genre: 'Views', sold: props.currentMeme.views},
-                                    {genre: 'Likes', sold: props.currentMeme.likes.length}
-                                ]
-                            }
-                        />
+                {
+                    props.sourceFromWeb ?
+                        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={showChart}>
+                            <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                                Meme Info
+                            </DialogTitle>
+                            <DialogContent dividers>
+                                <Chart
+                                    data={
+                                        [
+                                            {genre: 'Views', sold: props.currentMeme.views},
+                                            {genre: 'Likes', sold: props.currentMeme.likes.length}
+                                        ]
+                                    }
+                                />
 
-                    </DialogContent>
-                </Dialog>
+                            </DialogContent>
+                        </Dialog> : null
+                }
+
 
                 <Snackbar open={warning} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="warning">

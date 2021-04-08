@@ -9,7 +9,8 @@ function MainImage(props) {
         let url = 'http://localhost:5000/upload/' + props.memesList[props.currentIndex].url;
         setImageUrl(url);
         //use the API to increase the number of views
-        fetch('http://localhost:5000/images/' + props.memesList[props.currentIndex]._id+'/view').then(error => {
+        // alert('test')
+        fetch('http://localhost:5000/images/' + props.memesList[props.currentIndex]._id).then(error => {
             console.log(error);
         })
         //setIsLoaded(true);
@@ -23,7 +24,7 @@ function MainImage(props) {
     useEffect(() => {
         (props.sourceFromWeb) ? loadImagesFromWebServer() :  setImageUrl(props.memesList[props.currentIndex].url);
         //alert('render time')
-    }, [props.sourceFromWeb,props.currentIndex])
+    }, [props.sourceFromWeb,props.currentIndex,props.memesList])
 
     if (!props.isLoaded) {
         return <div>Loading...</div>;

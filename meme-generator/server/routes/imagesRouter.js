@@ -8,16 +8,40 @@ const ImageModel = require('../models/image');
 const CommentModel = require('../models/comment');
 
 //load all images from database
-router.get("/", async function (req, res, next) {
+router.get("/:filter", async function (req, res, next) {
     // const viewModel = {images: []};
-    await ImageModel.find({owner: 'public'}, {}, {sort: {timestamp: -1}}, function (err, images) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(images);
-        }
-    })
-});
+    switch (req.params.filter) {
+        case 'timestamp':
+            await ImageModel.find({owner: 'public'}, {}, {sort: {'likes': -1}}, function (err, images) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json(images);
+                }
+            })
+            break
+        case 'views':
+            await ImageModel.find({owner: 'public'}, {}, {sort: {'views': 1}}, function (err, images) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json(images);
+                }
+            })
+            break
+        case 'likes':
+            await ImageModel.find({owner: 'public'}, {}, {sort: {'likes': 1}}, function (err, images) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json(images);
+                }
+            })
+            break
+    }
+
+})
+;
 //load all images which were saved by the user
 router.get("/:email", async function (req, res, next) {
     // const viewModel = {images: []};
@@ -25,17 +49,18 @@ router.get("/:email", async function (req, res, next) {
         if (err) {
             console.log(err);
         } else {
+
             res.json(images);
         }
     })
 });
 
 //get specific image with image_id
-router.get("/:image_id/view",  function (req, res) {
+router.get("/:image_id/view", function (req, res) {
     //const viewModel = {image: {}, comments: []};
     ImageModel.findOne({_id: req.params.image_id}, function (err, image) {
         if (err) {
-            res.status(500).send('Error: '+err);
+            res.status(500).send('Error: ' + err);
         } else if (image) {
             // Increase the number of visits to this image
             image.views += 1;
@@ -119,11 +144,11 @@ router.post('/:email', upload.single('file'), function (req, res, next) {
 
 //delete the image which was saved in web
 router.post('/:email/delete', function (req, res, next) {
-    ImageModel.findOne({_id:req.body._id},async function (err, image) {
+    ImageModel.findOne({_id: req.body._id}, async function (err, image) {
         if (err) {
             console.log(err);
         } else if (image) {
-            fs.unlink(path.resolve('./server/public/upload/'+image.url), function (err) {
+            fs.unlink(path.resolve('./server/public/upload/' + image.url), function (err) {
                 if (err) {
                     console.log(err);
                 }
