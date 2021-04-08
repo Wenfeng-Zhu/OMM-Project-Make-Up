@@ -31,11 +31,11 @@ router.get("/:email", async function (req, res, next) {
 });
 
 //get specific image with image_id
-router.get("/:image_id", function (req, res) {
+router.get("/:image_id/view",  function (req, res) {
     //const viewModel = {image: {}, comments: []};
     ImageModel.findOne({_id: req.params.image_id}, function (err, image) {
         if (err) {
-            console.log(err);
+            res.status(500).send('Error: '+err);
         } else if (image) {
             // Increase the number of visits to this image
             image.views += 1;
@@ -43,9 +43,8 @@ router.get("/:image_id", function (req, res) {
             image.save();
             res.send('View successfully');
         } else {
-            res.send('View failed');
+            res.status(500).send('Can not find the image');
         }
-
     });
 });
 

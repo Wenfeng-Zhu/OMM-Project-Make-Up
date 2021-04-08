@@ -9,7 +9,7 @@ function MainImage(props) {
         let url = 'http://localhost:5000/upload/' + props.memesList[props.currentIndex].url;
         setImageUrl(url);
         //use the API to increase the number of views
-        fetch('http://localhost:5000/images/' + props.memesList[props.currentIndex]._id).then(error => {
+        fetch('http://localhost:5000/images/' + props.memesList[props.currentIndex]._id+'/view').then(error => {
             console.log(error);
         })
         //setIsLoaded(true);

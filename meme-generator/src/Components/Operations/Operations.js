@@ -28,7 +28,7 @@ function Operations(props) {
     const [liked, setLiked] = useState(false);
 
     function checkLiked() {
-        fetch('http://localhost:5000/images/' + props.currentImageId + '/like/' + jwtDecode(sessionStorage.getItem('token')).email)
+        fetch('http://localhost:5000/images/' + props.currentMeme._id + '/like/' + jwtDecode(sessionStorage.getItem('token')).email)
             .then(res => res.json())
             .then(result => {
                 setLiked(result);
@@ -50,7 +50,7 @@ function Operations(props) {
         } else {
             checkLiked();
         }
-    }, [props.logState, props.currentImageId])
+    }, [props.logState, props.currentMeme._id])
 
 
     if (!props.isLoaded) {
@@ -89,7 +89,7 @@ function Operations(props) {
                     onClick={() => {
                         if (props.logState) {
                             let upload = {email: jwtDecode(sessionStorage.getItem('token')).email};
-                            fetch('http://localhost:5000/images/' + props.currentImageId + '/like', {
+                            fetch('http://localhost:5000/images/' + props.currentMeme._id + '/like', {
                                 method: 'POST',
                                 mode: 'cors',
                                 headers: {'Content-Type': 'application/json'},
