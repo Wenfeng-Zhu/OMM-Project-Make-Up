@@ -5,6 +5,10 @@
     justify-items: center;
 }
 
+.searchInput{
+    width: 90%;
+}
+
 
 .scrollBar{
     display: grid;

@@ -66,7 +66,7 @@ function Comments(props) {
 
                                             commentsList.map((item, index) => {
                                                 return (
-                                                    <Paper>
+                                                    <Paper key={index}>
                                                         <ListItem>
                                                             <ListItemAvatar>
                                                                 <Avatar>

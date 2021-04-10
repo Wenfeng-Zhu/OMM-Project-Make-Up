@@ -3,14 +3,11 @@ import Draggable from 'react-draggable';
 import './ImageDisplay.css';
 import MainImage from "./MainImage";
 import {ToggleButton, ToggleButtonGroup} from "@material-ui/lab";
-import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
-import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
-import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
-import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import HistoryIcon from '@material-ui/icons/History';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import {Button} from "@material-ui/core";
+import {Button, TextField} from "@material-ui/core";
 
 function ImageDisplay(props) {
     const exportImage = useRef(null);
@@ -67,12 +64,33 @@ function ImageDisplay(props) {
     } else {
         return (
             <div className="imageArea">
+                <div className='searchInput'>
+                    <Autocomplete
+                        id="free-solo-2-demo"
+                        disableClearable
+                        options={props.memesList}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(event,value)=>{
+                            props.setIndex(props.memesList.indexOf(value));
+                        }}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Search input"
+                                margin="normal"
+                                variant="outlined"
+                                InputProps={{ ...params.InputProps, type: 'search' }}
+                            />
+                        )}
+                    />
+                </div>
                 <div className="scrollBar">
                     {/*The length of memesList is{memesList.length};*/}
                     <div className='topBar'>
                         <p className="imageTitle">
                             {props.memesList[props.currentIndex].name}
                         </p>
+
                         <ToggleButtonGroup
                             className='filtering'
                             value={props.filter}
