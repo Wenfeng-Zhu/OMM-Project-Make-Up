@@ -1,16 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import './Comments.css'
 import {
+    Avatar,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle, Snackbar,
+    DialogTitle, Divider, List, ListItem, ListItemAvatar, ListItemText, Paper, Snackbar,
     TextField
 } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 import jwtDecode from "jwt-decode";
+import FaceIcon from '@material-ui/icons/Face';
+import SendIcon from '@material-ui/icons/Send';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -58,21 +61,42 @@ function Comments(props) {
                             {
                                 (commentsList.length === 0) ?
                                     <p>This meme has not been reviewed yet, come to review it!</p> :
-                                    <>
+                                    <List>
                                         {
-                                            commentsList.map((item,index) => {
+
+                                            commentsList.map((item, index) => {
                                                 return (
-                                                    <div key={index} className='commentUnit'>
-                                                        <p>{item.username}</p>
-                                                        <b/>
-                                                        <p>{item.comment}</p>
-                                                        <b/>
-                                                        <p>{item.timestamp}</p>
-                                                    </div>
+                                                    <Paper>
+                                                        <ListItem>
+                                                            <ListItemAvatar>
+                                                                <Avatar>
+                                                                    <FaceIcon/>
+                                                                </Avatar>
+                                                            </ListItemAvatar>
+                                                            <ListItemText primary={item.username}
+                                                                          secondary={item.timestamp}/>
+                                                            {/*<ListItemText>{item.comment}</ListItemText>*/}
+
+                                                        </ListItem>
+                                                        <ListItem>
+                                                            <ListItemText primary={item.comment}/>
+                                                            {/*<ListItemText>{item.comment}</ListItemText>*/}
+                                                            <Divider/>
+                                                        </ListItem>
+                                                        <Divider/>
+                                                    </Paper>
+
+                                                    // <div key={index} className='commentUnit'>
+                                                    //     <p>{item.username}</p>
+                                                    //     <b/>
+                                                    //     <p>{item.comment}</p>
+                                                    //     <b/>
+                                                    //     <p>{item.timestamp}</p>
+                                                    // </div>
                                                 )
                                             })
                                         }
-                                    </>
+                                    </List>
                             }
 
                         </div>
@@ -85,7 +109,7 @@ function Comments(props) {
                                 }>Log In
                                 </button>
                             </div> :
-                            <div className='AddNewComment'>
+                            <Paper className='AddNewComment'>
                                 <TextField
                                     fullWidth={true}
                                     id="NewComment"
@@ -99,16 +123,23 @@ function Comments(props) {
                                         setComment(event.target.value);
                                     }}
                                 />
-                                <button onClick={() => {
-                                    if (comment === '') {
-                                        setEmpty(true);
-                                    } else {
-                                        setShowConfirmDialog(true);
-                                    }
-
-                                }}>Add
-                                </button>
-                            </div>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    size='small'
+                                    //className={classes.button}
+                                    endIcon={<SendIcon/>}
+                                    onClick={() => {
+                                        if (comment === '') {
+                                            setEmpty(true);
+                                        } else {
+                                            setShowConfirmDialog(true);
+                                        }
+                                    }}
+                                >
+                                    Send
+                                </Button>
+                            </Paper>
                         }
                     </div> :
                     <div className='closedComment'>

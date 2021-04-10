@@ -43,25 +43,38 @@ const useStyles = makeStyles((theme) => ({
 function SavedMemes() {
     const classes = useStyles();
     const [userMemes, setUserMemes] = useState([]);
-    const [currentIndex,setIndex] = useState(0);
+    const [currentIndex, setIndex] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [reloadMemes,setReload] = useState(false);
+    const [reloadMemes, setReload] = useState(false);
     const displayedImage = useRef();
 
-    function needReloadUserMemes(){
+    function needReloadUserMemes() {
         setReload(!reloadMemes);
     }
 
     useEffect(() => {
-        fetch('http://localhost:5000/images/' + jwtDecode(sessionStorage.getItem('token')).email)
-            .then(res => res.json())
-            .then(result => {
-                setUserMemes(result);
-                setIndex(0);
-                setIsLoaded(true);
-            }, (error) => {
-                console.log(error)
+        fetch('http://localhost:5000/images/' + jwtDecode(sessionStorage.getItem('token')).email + '/saved')
+            .then(res => {
+                if (res.status === 204) {
+                    setIsLoaded(true);
+                } else {
+                    res.json().then(result => {
+                        setUserMemes(result);
+                        setIndex(0);
+                        setIsLoaded(true);
+                    }, (error) => {
+                        console.log(error)
+                    })
+                }
             })
+        // .then(res => res.json())
+        // .then(result => {
+        //     setUserMemes(result);
+        //     setIndex(0);
+        //     setIsLoaded(true);
+        // }, (error) => {
+        //     console.log(error)
+        // })
     }, [isLoaded])
 
     if (!isLoaded) {
@@ -80,61 +93,71 @@ function SavedMemes() {
                             startIcon={<HomeIcon/>}
                         >Home</Button>
                     </Link>
-                    <div className="userScrollBar">
-                        <div className="userScrollImages">
-                            {userMemes.map((item, index) => {
-                                return (
+                    {
+                        (userMemes.length === 0) ? <div>
+                            <p>You haven't saved any meme</p>
+                        </div> : <>
+                            <div className="userScrollBar">
+                                <div className="userScrollImages">
+                                    {userMemes.map((item, index) => {
+                                        return (
 
-                                    <img className="userSingleImage" src={
-                                        'http://localhost:5000/upload/' + item.url
-                                    }
-                                         alt="Image can not be displayed"
-                                        onClick={() => setIndex(index)}
-                                    />
+                                            <img className="userSingleImage" src={
+                                                'http://localhost:5000/upload/' + item.url
+                                            }
+                                                 alt="Image can not be displayed"
+                                                 onClick={() => setIndex(index)}
+                                            />
 
-                                )
-                            })}
-                        </div>
-                    </div>
-                    <div className='imageDisplay'>
-                        <img ref={displayedImage} src={
-                            'http://localhost:5000/upload/' + userMemes[currentIndex].url
-                        }
-                             alt="Image can not be displayed"
-                        />
-                        <div className='buttons'>
-                            <button onClick={()=>{
-                                domToImage.toBlob(displayedImage.current, null).then((blob) => {
-                                    saveAs(blob, userMemes[currentIndex].name)
-                                })
-                            }}>Download</button>
-                            <button onClick={()=>{
-                                const confirm = window.confirm('Are You Sure to delete this image?');
-                                if (confirm){
-                                    //alert('delete')
-                                    fetch('http://localhost:5000/images/' + jwtDecode(sessionStorage.getItem('token')).email+ '/delete', {
-                                        method: 'POST',
-                                        mode: 'cors',
-                                        headers: {'Content-Type': 'application/json'},
-                                        body: JSON.stringify(userMemes[currentIndex])
-                                    }).then(function (res) {
-                                        if (res.ok) {
-                                            console.log('POST successfully！')
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                            <span>{userMemes[currentIndex].name}</span>
+                            <div className='imageDisplay'>
+                                <img ref={displayedImage} src={
+                                    'http://localhost:5000/upload/' + userMemes[currentIndex].url
+                                }
+                                     alt="Image can not be displayed"
+                                />
+                                <div className='buttons'>
+                                    <button onClick={() => {
+                                        domToImage.toBlob(displayedImage.current, null).then((blob) => {
+                                            saveAs(blob, userMemes[currentIndex].name)
+                                        })
+                                    }}>Download
+                                    </button>
+                                    <button onClick={() => {
+                                        const confirm = window.confirm('Are You Sure to delete this image?');
+                                        if (confirm) {
+                                            //alert('delete')
+                                            fetch('http://localhost:5000/images/' + jwtDecode(sessionStorage.getItem('token')).email + '/delete', {
+                                                method: 'POST',
+                                                mode: 'cors',
+                                                headers: {'Content-Type': 'application/json'},
+                                                body: JSON.stringify(userMemes[currentIndex])
+                                            }).then(function (res) {
+                                                if (res.ok) {
+                                                    console.log('POST successfully！')
+                                                } else {
+                                                    console.log('require is failed！');
+                                                }
+                                            }, function (e) {
+                                                console.log('Error: ' + e);
+                                            });
+                                            needReloadUserMemes();
+                                            setIsLoaded(false);
                                         } else {
-                                            console.log('require is failed！');
                                         }
-                                    }, function (e) {
-                                        console.log('Error: ' + e);
-                                    });
-                                    needReloadUserMemes();
-                                    setIsLoaded(false);
-                                }
-                                else {
-                                }
-                            }}>Delete</button>
+                                    }}>Delete
+                                    </button>
 
-                        </div>
-                    </div>
+                                </div>
+                            </div>
+                        </>
+                    }
+
+
                 </div>
                 <div className="rightSidebar"/>
             </div>

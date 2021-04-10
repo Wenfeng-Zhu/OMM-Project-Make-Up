@@ -12,7 +12,7 @@ router.get("/:filter", async function (req, res, next) {
     // const viewModel = {images: []};
     switch (req.params.filter) {
         case 'timestamp':
-            await ImageModel.find({owner: 'public'}, {}, {sort: {'likes': -1}}, function (err, images) {
+            await ImageModel.find({owner: 'public'}, {}, {sort: {'timestamp': -1}}, function (err, images) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -21,7 +21,7 @@ router.get("/:filter", async function (req, res, next) {
             })
             break
         case 'views':
-            await ImageModel.find({owner: 'public'}, {}, {sort: {'views': 1}}, function (err, images) {
+            await ImageModel.find({owner: 'public'}, {}, {sort: {'views': -1}}, function (err, images) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -30,7 +30,7 @@ router.get("/:filter", async function (req, res, next) {
             })
             break
         case 'likes':
-            await ImageModel.find({owner: 'public'}, {}, {sort: {'likes': 1}}, function (err, images) {
+            await ImageModel.find({owner: 'public'}, {}, {sort: {'likes': -1}}, function (err, images) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -43,14 +43,16 @@ router.get("/:filter", async function (req, res, next) {
 })
 ;
 //load all images which were saved by the user
-router.get("/:email", async function (req, res, next) {
+router.get("/:email/saved", async function (req, res, next) {
     // const viewModel = {images: []};
     await ImageModel.find({owner: req.params.email}, {}, {sort: {timestamp: -1}}, function (err, images) {
         if (err) {
             console.log(err);
-        } else {
-
+        } else if (images){
             res.json(images);
+        }
+        else {
+            res.status(204).send("This user has saved nothing in web-server");
         }
     })
 });
