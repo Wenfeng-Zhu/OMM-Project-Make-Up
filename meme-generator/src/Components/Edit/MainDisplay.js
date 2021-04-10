@@ -11,8 +11,19 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import StorageIcon from '@material-ui/icons/Storage';
 import WebIcon from '@material-ui/icons/Web';
-import {Button, Paper} from "@material-ui/core";
+import {Button, makeStyles, Paper} from "@material-ui/core";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+    input: {
+        display: 'none',
+    },
+}));
 
 function MainDisplay(props) {
 
@@ -27,6 +38,8 @@ function MainDisplay(props) {
         bold: false,
         italic: false
     });
+    const [displayingImage,setDisplayingImage] = useState(null);
+    const classes = useStyles();
 
 
     if (!props.isLoaded) {
@@ -47,6 +60,7 @@ function MainDisplay(props) {
                         inputUnits={inputUnits}
                         setExportImage={props.setExportImage}
                         numOfTexts={numOfTexts}
+                        setDisplayingImage = {setDisplayingImage}
                     />
                 </Paper>
 
@@ -72,16 +86,34 @@ function MainDisplay(props) {
                             <ToggleButton value={false}>
                                 <WebIcon/> Imgflip
                             </ToggleButton>
-                            <Button
-                                variant="contained"
-                                color="default"
-                                disableElevation
-                                // className={classes.button}
-                                startIcon={<CloudUploadIcon />}
-                            >
-                                Upload
-                            </Button>
+
+                            {/*<Button*/}
+                            {/*    variant="contained"*/}
+                            {/*    color="default"*/}
+                            {/*    disableElevation*/}
+                            {/*    // className={classes.button}*/}
+                            {/*    startIcon={<CloudUploadIcon />}*/}
+                            {/*>*/}
+                            {/*    Upload*/}
+                            {/*</Button>*/}
                         </ToggleButtonGroup>
+                        <div className={classes.root}>
+                            <input
+                                accept="image/*"
+                                className={classes.input}
+                                id="contained-button-file"
+                                multiple
+                                type="file"
+                                onChange={event => {
+                                    displayingImage.src = window.URL.createObjectURL(event.target.files[0])
+                                }}
+                            />
+                            <label htmlFor="contained-button-file">
+                                <Button variant="contained" color="default" startIcon={<CloudUploadIcon/>} component="span">
+                                    Upload
+                                </Button>
+                            </label>
+                        </div>
 
 
                     </div>
@@ -115,13 +147,13 @@ function MainDisplay(props) {
                             variant="contained"
                             color='default'
                             className="deleteButton"
-                                onClick={() => {
-                                    if (numOfTexts > 2) {
-                                        setNum(numOfTexts - 1);
-                                    } else {
-                                        alert('There must be at least two text input boxes!');
-                                    }
-                                }}
+                            onClick={() => {
+                                if (numOfTexts > 2) {
+                                    setNum(numOfTexts - 1);
+                                } else {
+                                    alert('There must be at least two text input boxes!');
+                                }
+                            }}
                         >Delete A Text
                         </Button>
 

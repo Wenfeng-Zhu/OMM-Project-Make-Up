@@ -73,11 +73,11 @@ function Operations(props) {
                     variant="contained"
                     color='default'
                     onClick={() => {
-                    //alert(props.exportImage.title)
-                    domToImage.toBlob(props.exportImage, null).then((blob) => {
-                        saveAs(blob, props.savedTitle)
-                    })
-                }}
+                        //alert(props.exportImage.title)
+                        domToImage.toBlob(props.exportImage, null).then((blob) => {
+                            saveAs(blob, props.savedTitle)
+                        })
+                    }}
                 >Download
                 </Button>
                 <Button
@@ -85,18 +85,24 @@ function Operations(props) {
                     variant="contained"
                     color='default'
                     onClick={() => {
-                    let confirm = window.confirm('Are You sure to save the image?');
-                    if (confirm) {
-                        domToImage.toBlob(props.exportImage, null).then(function (blob) {
-                            let formData = new FormData();
-                            formData.set('file', blob, props.savedTitle + '.png');
-                            let xhr = new XMLHttpRequest();
-                            xhr.open('POST', 'http://localhost:5000/images/' + jwtDecode(sessionStorage.getItem('token')).email, true);
-                            xhr.send(formData);
-                        })
-                    }
+                        if (props.logState){
+                            let confirm = window.confirm('Are You sure to save the image?');
+                            if (confirm) {
+                                domToImage.toBlob(props.exportImage, null).then(function (blob) {
+                                    let formData = new FormData();
+                                    formData.set('file', blob, props.savedTitle + '.png');
+                                    let xhr = new XMLHttpRequest();
+                                    xhr.open('POST', 'http://localhost:5000/images/' + jwtDecode(sessionStorage.getItem('token')).email, true);
+                                    xhr.send(formData);
+                                })
+                            }
+                        }
+                        else {
+                            showWarning(true);
+                        }
 
-                }}>
+
+                    }}>
                     Save
                 </Button>
                 <Button

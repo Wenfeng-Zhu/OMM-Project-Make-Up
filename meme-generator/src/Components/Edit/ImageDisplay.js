@@ -115,6 +115,7 @@ function ImageDisplay(props) {
                         memesList={props.memesList}
                         sourceFromWeb={props.sourceFromWeb}
                         isLoaded={props.isLoaded}
+                        setDisplayingImage = {props.setDisplayingImage}
                     />
                     {/*<img className="image" src={(props.sourceFromWeb)?(loadImagesFromWebServer()):(props.memesList[props.currentIndex].url)} alt="Image can not be displayed"/>*/}
                     <Draggable bounds={'parent'}>

@@ -7,6 +7,9 @@
     display: grid;
     grid-template-rows: 40px auto;
 }
+.SourceButton{
+    display: flex;
+}
 .inputArea{
     display: grid;
     justify-items: center;
@@ -37,8 +40,6 @@
 .savedTitle{
     height: 60%;
 }
-.filtering{
-    width: 100%;
-}
+
 
 

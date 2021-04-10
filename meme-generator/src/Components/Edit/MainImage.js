@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 function MainImage(props) {
     const [imageUrl, setImageUrl] = useState('');
     //const [isLoaded, setIsLoaded] = useState(false);
+    const displayingImage = useRef();
 
 
     function loadImagesFromWebServer() {
@@ -22,6 +23,7 @@ function MainImage(props) {
     // }
 
     useEffect(() => {
+        props.setDisplayingImage(displayingImage.current);
         (props.sourceFromWeb) ? loadImagesFromWebServer() :  setImageUrl(props.memesList[props.currentIndex].url);
         //alert('render time')
     }, [props.sourceFromWeb,props.currentIndex,props.memesList])
@@ -31,7 +33,7 @@ function MainImage(props) {
     } else{
         //alert(imageUrl);
         return (
-            <img className="image" src={imageUrl} alt="Image can not be displayed"/>
+            <img className="image" ref={displayingImage} src={imageUrl} alt="Image can not be displayed"/>
         )
     }
 
