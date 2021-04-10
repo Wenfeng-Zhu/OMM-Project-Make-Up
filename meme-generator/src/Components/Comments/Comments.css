@@ -11,3 +11,16 @@
 .AddNewComment{
 
 }
+.commentBeforeLogin{
+    display: grid;
+    grid-template-rows: 50% 50%;
+    align-items: center;
+    justify-items: center;
+}
+
+.closedComment{
+    height: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}

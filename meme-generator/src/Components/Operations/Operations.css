@@ -1,3 +1,6 @@
 .OperationsArea{
-    background: cornflowerblue;
+    /*background: cornflowerblue;*/
+    display: grid;
+    grid-column-gap: 6%;
+    grid-template-columns: 20% 20% 20% 20%;
 }

@@ -15,6 +15,10 @@ import {
 } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 import Chart from "../Others/Chart";
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import BookmarksIcon from '@material-ui/icons/Bookmarks';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -58,18 +62,29 @@ function Operations(props) {
     } else {
         return (
             <div className="OperationsArea">
-                <Button disabled={!props.sourceFromWeb} variant="contained" onClick={() => {
+                <Button
+                    startIcon={<EqualizerIcon/>}
+                    disabled={!props.sourceFromWeb} variant="contained" onClick={() => {
                     setShowChart(true)
                 }}>Info
                 </Button>
-                <button onClick={() => {
+                <Button
+                    startIcon={<GetAppIcon/>}
+                    variant="contained"
+                    color='default'
+                    onClick={() => {
                     //alert(props.exportImage.title)
                     domToImage.toBlob(props.exportImage, null).then((blob) => {
                         saveAs(blob, props.savedTitle)
                     })
-                }}>Download
-                </button>
-                <button onClick={() => {
+                }}
+                >Download
+                </Button>
+                <Button
+                    startIcon={<BookmarksIcon/>}
+                    variant="contained"
+                    color='default'
+                    onClick={() => {
                     let confirm = window.confirm('Are You sure to save the image?');
                     if (confirm) {
                         domToImage.toBlob(props.exportImage, null).then(function (blob) {
@@ -83,9 +98,11 @@ function Operations(props) {
 
                 }}>
                     Save
-                </button>
+                </Button>
                 <Button
                     variant="contained"
+                    startIcon={<FavoriteIcon color={(liked) ? "secondary" : "action"}/>}
+                    disabled={!props.sourceFromWeb}
                     onClick={() => {
                         if (props.logState) {
                             let upload = {email: jwtDecode(sessionStorage.getItem('token')).email};
@@ -109,7 +126,7 @@ function Operations(props) {
                         }
 
                     }}
-                    color={(liked) ? "primary" : "secondary"}
+
                 >
                     like
                 </Button>

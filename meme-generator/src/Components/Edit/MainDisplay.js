@@ -11,6 +11,8 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import StorageIcon from '@material-ui/icons/Storage';
 import WebIcon from '@material-ui/icons/Web';
+import {Button, Paper} from "@material-ui/core";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 function MainDisplay(props) {
 
@@ -33,19 +35,22 @@ function MainDisplay(props) {
         //alert('input text is: '+inputUnit.text);
         return (
             <div className="MainDisplay">
-                <ImageDisplay
-                    sourceFromWeb={props.sourceFromWeb}
-                    filter = {props.filter}
-                    setFilter = {props.setFilter}
-                    memesList={props.memesList}
-                    isLoaded={props.isLoaded}
-                    currentIndex={props.currentIndex}
-                    setIndex={props.setIndex}
-                    inputUnits={inputUnits}
-                    setExportImage={props.setExportImage}
-                    numOfTexts={numOfTexts}
-                />
-                <div className='rightEdit'>
+                <Paper>
+                    <ImageDisplay
+                        sourceFromWeb={props.sourceFromWeb}
+                        filter={props.filter}
+                        setFilter={props.setFilter}
+                        memesList={props.memesList}
+                        isLoaded={props.isLoaded}
+                        currentIndex={props.currentIndex}
+                        setIndex={props.setIndex}
+                        inputUnits={inputUnits}
+                        setExportImage={props.setExportImage}
+                        numOfTexts={numOfTexts}
+                    />
+                </Paper>
+
+                <Paper className='rightEdit'>
                     <div className="SourceButton">
                         <ToggleButtonGroup
                             className='filtering'
@@ -67,22 +72,17 @@ function MainDisplay(props) {
                             <ToggleButton value={false}>
                                 <WebIcon/> Imgflip
                             </ToggleButton>
-                            {/*<ToggleButton value="justify" aria-label="justified" disabled>*/}
-                            {/*    <FormatAlignJustifyIcon />*/}
-                            {/*</ToggleButton>*/}
+                            <Button
+                                variant="contained"
+                                color="default"
+                                disableElevation
+                                // className={classes.button}
+                                startIcon={<CloudUploadIcon />}
+                            >
+                                Upload
+                            </Button>
                         </ToggleButtonGroup>
-                        {/*<button onClick={() => {*/}
-                        {/*    props.setSource(true);*/}
-                        {/*    props.setIndex(0);*/}
-                        {/*    props.setIsLoaded(false);*/}
-                        {/*}}>Web Server*/}
-                        {/*</button>*/}
-                        {/*<button onClick={() => {*/}
-                        {/*    props.setSource(false);*/}
-                        {/*    props.setIndex(0);*/}
-                        {/*    props.setIsLoaded(false);*/}
-                        {/*}}>Imgflip*/}
-                        {/*</button>*/}
+
 
                     </div>
                     <div className="inputArea">
@@ -98,17 +98,23 @@ function MainDisplay(props) {
                             {numOfTexts > 2 ? <TextInput updateInputUnits={updateInputUnits} index={2}/> : null}
                             {numOfTexts > 3 ? <TextInput updateInputUnits={updateInputUnits} index={3}/> : null}
                         </div>
-                        <button className="addButton"
-                                onClick={() => {
-                                    if (numOfTexts < 4) {
-                                        setNum(numOfTexts + 1);
-                                    } else {
-                                        alert('You can only add up to four text input boxes!');
-                                    }
-                                }}
+                        <Button
+                            className="addButton"
+                            variant="contained"
+                            color='default'
+                            onClick={() => {
+                                if (numOfTexts < 4) {
+                                    setNum(numOfTexts + 1);
+                                } else {
+                                    alert('You can only add up to four text input boxes!');
+                                }
+                            }}
                         >Add A New Text
-                        </button>
-                        <button className="deleteButton"
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color='default'
+                            className="deleteButton"
                                 onClick={() => {
                                     if (numOfTexts > 2) {
                                         setNum(numOfTexts - 1);
@@ -117,10 +123,10 @@ function MainDisplay(props) {
                                     }
                                 }}
                         >Delete A Text
-                        </button>
+                        </Button>
 
                     </div>
-                </div>
+                </Paper>
 
 
             </div>

@@ -32,9 +32,9 @@ const StyledMenu = withStyles({
 const StyledMenuItem = withStyles((theme) => ({
     root: {
         '&:focus': {
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: '#D8C3A5',
             '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-                color: theme.palette.common.white,
+                color: '#D8C3A5',
             },
         },
     },
@@ -55,6 +55,16 @@ const UserMenu = [
     }
 ]
 
+const ColorButton = withStyles((theme) => ({
+    root: {
+        color: theme.palette.getContrastText('#E98074'),
+        backgroundColor: '#E98074',
+        '&:hover': {
+            backgroundColor: '#E85A4F',
+        },
+    },
+}))(Button);
+
 function Header(props) {
     const [showUserMenu, setShowUserMenu] = useState(false);
     const userButton = useRef(null)
@@ -66,20 +76,26 @@ function Header(props) {
                         (!props.logState) ?
                             (
                                 <div className="beforeLogged">
-                                    <button className="logIn" onClick={() => {
+                                    <ColorButton
+                                        variant="contained"
+                                        color= 'default'
+                                        className="logIn" onClick={() => {
                                         props.setShowLogIn(true);
                                     }}>
                                         Log In
-                                    </button>
-                                    <button className="registration" onClick={() => {
+                                    </ColorButton>
+                                    <ColorButton
+                                        variant="contained"
+                                        color='default'
+                                        className="registration" onClick={() => {
                                         props.setShowRegistration(true);
                                     }}>
                                         Registration
-                                    </button>
+                                    </ColorButton>
                                 </div>
                             ) : (
                                 <div className="afterLogged">
-                                    <Button
+                                    <ColorButton
                                         ref={userButton}
                                         className='userButton'
                                         aria-controls="user-menu"
@@ -91,7 +107,7 @@ function Header(props) {
                                         }}
                                     >
                                         {jwtDecode(sessionStorage.getItem('token')).username}
-                                    </Button>
+                                    </ColorButton>
                                     <StyledMenu
                                         id="user-menu"
                                         open={showUserMenu}

@@ -85,14 +85,6 @@ function Comments(props) {
                                                         </ListItem>
                                                         <Divider/>
                                                     </Paper>
-
-                                                    // <div key={index} className='commentUnit'>
-                                                    //     <p>{item.username}</p>
-                                                    //     <b/>
-                                                    //     <p>{item.comment}</p>
-                                                    //     <b/>
-                                                    //     <p>{item.timestamp}</p>
-                                                    // </div>
                                                 )
                                             })
                                         }
@@ -101,14 +93,17 @@ function Comments(props) {
 
                         </div>
                         {(!props.logState) ?
-                            <div className='commentBeforeLogin'>
+                            <Paper className='commentBeforeLogin'>
                                 <p>Log in to add a comment</p>
-                                <button onClick={() => {
+                                <Button
+                                    variant="contained"
+                                    color="default"
+                                    onClick={() => {
                                     props.setShowLogIn(true);
                                 }
                                 }>Log In
-                                </button>
-                            </div> :
+                                </Button>
+                            </Paper> :
                             <Paper className='AddNewComment'>
                                 <TextField
                                     fullWidth={true}

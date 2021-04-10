@@ -1,12 +1,12 @@
 .HomePage {
   /*text-align: center;*/
+  background: #EAE7DC;
   display: grid;
   grid-template-columns: 20% auto 20%;
 }
 header{
-  background: lightpink;
   grid-column: 1 / 4;
-  height: 5vh;
+  height: 7vh;
 }
 
 .left-sidebar {
@@ -19,6 +19,7 @@ main {
   grid-auto-flow: row;
   grid-column: 2 / 3;
   height: auto;
+  grid-row-gap: 10px;
 }
 
 .right-sidebar {

@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import Profile from "./Pages/User Menu/Profile";
 import SavedMemes from "./Pages/User Menu/SavedMemes";
+import 'fontsource-roboto';
 
 ReactDOM.render(
   <React.StrictMode>

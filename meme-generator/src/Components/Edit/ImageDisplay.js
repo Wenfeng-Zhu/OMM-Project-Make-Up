@@ -10,6 +10,7 @@ import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
 import HistoryIcon from '@material-ui/icons/History';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import {Button} from "@material-ui/core";
 
 function ImageDisplay(props) {
     const exportImage = useRef(null);
@@ -161,14 +162,20 @@ function ImageDisplay(props) {
 
                 </div>
                 <div className="buttonsArea">
-                    <button className="preButton"
-                            onClick={() => props.setIndex(props.currentIndex === 0 ? props.memesList.length - 1 : props.currentIndex - 1)}
+                    <Button
+                        variant="contained"
+                        color='default'
+                        className="preButton"
+                        onClick={() => props.setIndex(props.currentIndex === 0 ? props.memesList.length - 1 : props.currentIndex - 1)}
                     >Pre
-                    </button>
-                    <button className="nextButton"
-                            onClick={() => props.setIndex(props.currentIndex === props.memesList.length - 1 ? 0 : props.currentIndex + 1)}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color='default'
+                        className="nextButton"
+                        onClick={() => props.setIndex(props.currentIndex === props.memesList.length - 1 ? 0 : props.currentIndex + 1)}
                     >Next
-                    </button>
+                    </Button>
                 </div>
             </div>
         );

@@ -72,15 +72,9 @@ function HomePage() {
     } else {
         return (
             <div className="HomePage">
-                <header>
-                    <Header
-                        isLoaded={isLoaded}
-                        logState={logState}
-                        setLogState={setLogState}
-                        setShowLogIn={setShowLogIn}
-                        setShowRegistration={setShowRegistration}
-                    />
-                </header>
+                {/*<header>*/}
+
+                {/*</header>*/}
                 <div className="leftSidebar"/>
                 <main>
                     <MainDisplay
@@ -116,7 +110,15 @@ function HomePage() {
                         currentImageId={memesList[currentIndex]._id}
                     />
                 </main>
-                <div className="rightSidebar"/>
+                <div className="rightSidebar">
+                    <Header
+                        isLoaded={isLoaded}
+                        logState={logState}
+                        setLogState={setLogState}
+                        setShowLogIn={setShowLogIn}
+                        setShowRegistration={setShowRegistration}
+                    />
+                </div>
 
                 <LogInDialog
                     logState={logState}

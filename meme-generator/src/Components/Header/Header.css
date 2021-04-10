@@ -1,28 +1,28 @@
 .headerBar{
     height: 100%;
     display: flex;
-    background-color: #5196A6;
-    align-items: center;
+    background-color: #EAE7DC;
+    margin-top: 10px;
+    margin-right: 20px;
+    /*align-items: center;*/
     justify-content:flex-end;
 
 }
 .beforeLogged{
-    display: grid;
-    grid-template-columns: auto auto;
 }
 .logIn{
-    align-items: center;
+    /*align-items: center;*/
+    width: 150px;
     font-size: calc(3vmin);
-    margin-right: 2vh;
+    margin-right: 20px;
 }
 .registration{
-    align-items: center;
-    font-size: calc(3vmin);
-    margin-right: 8vh;
+    width: 150px;
+    /*align-items: center;*/
+    margin-right: 20px;
 }
 
 .userButton{
     align-items: center;
-    font-size: calc(3vmin);
     margin-right: 8vh;
 }
