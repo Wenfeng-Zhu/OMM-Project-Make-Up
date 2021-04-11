@@ -1,14 +1,9 @@
-import React, {useState, useEffect, useReducer, useRef} from 'react';
+import React, {useState} from 'react';
 import './MainDisplay.css';
 import './ImageDisplay';
 import ImageDisplay from "./ImageDisplay";
 import TextInput from "./TextInput";
-import ReactDOM from 'react-dom';
-import Draggable from "react-draggable";
 import {ToggleButton, ToggleButtonGroup} from "@material-ui/lab";
-import HistoryIcon from "@material-ui/icons/History";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import StorageIcon from '@material-ui/icons/Storage';
 import WebIcon from '@material-ui/icons/Web';
 import {Button, makeStyles, Paper} from "@material-ui/core";
@@ -26,10 +21,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function MainDisplay(props) {
-
-    //const [isLoaded, setIsLoaded] = useState(false);
-
+    // set the number of the displaying texts, default & min is 2 and max is 4
     const [numOfTexts, setNum] = useState(2);
+    //set the form information of the input unit
     const [inputUnits, updateInputUnits] = useState({
         index: 0,
         text: '',
@@ -38,14 +32,11 @@ function MainDisplay(props) {
         bold: false,
         italic: false
     });
-    const [displayingImage,setDisplayingImage] = useState(null);
+    const [displayingImage, setDisplayingImage] = useState(null);
     const classes = useStyles();
-
-
     if (!props.isLoaded) {
         return <div>Loading...</div>;
     } else {
-        //alert('input text is: '+inputUnit.text);
         return (
             <div className="MainDisplay">
                 <Paper>
@@ -60,7 +51,7 @@ function MainDisplay(props) {
                         inputUnits={inputUnits}
                         setExportImage={props.setExportImage}
                         numOfTexts={numOfTexts}
-                        setDisplayingImage = {setDisplayingImage}
+                        setDisplayingImage={setDisplayingImage}
                     />
                 </Paper>
 
@@ -76,7 +67,6 @@ function MainDisplay(props) {
                                     props.setIndex(0);
                                     props.setIsLoaded(false)
                                 }
-
                             }}
                             aria-label="web source"
                         >
@@ -86,16 +76,6 @@ function MainDisplay(props) {
                             <ToggleButton value={false}>
                                 <WebIcon/> Imgflip
                             </ToggleButton>
-
-                            {/*<Button*/}
-                            {/*    variant="contained"*/}
-                            {/*    color="default"*/}
-                            {/*    disableElevation*/}
-                            {/*    // className={classes.button}*/}
-                            {/*    startIcon={<CloudUploadIcon />}*/}
-                            {/*>*/}
-                            {/*    Upload*/}
-                            {/*</Button>*/}
                         </ToggleButtonGroup>
                         <div className={classes.root}>
                             <input
@@ -109,7 +89,8 @@ function MainDisplay(props) {
                                 }}
                             />
                             <label htmlFor="contained-button-file">
-                                <Button variant="contained" color="default" startIcon={<CloudUploadIcon/>} component="span">
+                                <Button variant="contained" color="default" startIcon={<CloudUploadIcon/>}
+                                        component="span">
                                     Upload
                                 </Button>
                             </label>
@@ -159,8 +140,6 @@ function MainDisplay(props) {
 
                     </div>
                 </Paper>
-
-
             </div>
         )
     }

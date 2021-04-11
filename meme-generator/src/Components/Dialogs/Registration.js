@@ -23,8 +23,7 @@ const initialRegistrationPwd = {
     confirmedPwd: ''
 }
 
-
-function RegistrationDialog(props){
+function RegistrationDialog(props) {
     //set whether the email and the password are correct during the registration
     const [confirmed, setConfirmed] = useState(initialConfirmed);
     //set the original password and confirmed password
@@ -144,13 +143,15 @@ function RegistrationDialog(props){
                     Cancel
                 </Button>
                 <Button onClick={() => {
+                    // First judge whether the format of the registered mailbox is correct through regularization
                     if (!(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(props.userInfo.email))) {
-                        //alert('Please enter the correct email address');
                         setConfirmed({...confirmed, emailConfirmed: false});
                     } else {
+                        // Determine whether the two entered passwords are the same
                         if (!(registrationPwd.originalPwd === registrationPwd.confirmedPwd)) {
                             setConfirmed({...confirmed, pwdConfirmed: false});
                         } else {
+                            // A registration request with an account and password occurs through the api, and it is saved to the database
                             fetch('http://localhost:5000/users/registration', {
                                 method: 'POST',
                                 mode: 'cors',
@@ -174,4 +175,5 @@ function RegistrationDialog(props){
         </Dialog>
     )
 }
+
 export default RegistrationDialog

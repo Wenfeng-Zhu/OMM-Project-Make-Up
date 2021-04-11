@@ -1,6 +1,8 @@
+// The manager interface of the website backend
+// Need to log in through an administrator account
+
 import React, {useState} from "react";
 import './Admin.css';
-import {Link} from 'react-router-dom';
 import {
     Button,
     Dialog, DialogActions,
@@ -19,7 +21,6 @@ import UsersList from "../../Components/Admin/UsersList";
 import ImagesList from "../../Components/Admin/ImagesList";
 import AdminNav from "../../Components/Admin/AdminNav";
 import CommentsList from "../../Components/Admin/CommentsList";
-
 
 function Admin() {
     const [adminLogged, setAdminLogged] = useState(sessionStorage.getItem('admin'));
@@ -73,12 +74,9 @@ function Admin() {
                         }).then(response => {
                             if (response.ok) {
                                 return (response.json()).then((json) => {
-                                    //setUserInfo({...userInfo,username: json.user.username})
-                                    //setLoggedIn(true);
                                     sessionStorage.setItem('admin', json.success);
                                     setAdminLogged(sessionStorage.getItem('admin'));
-                                    //alert('admin logged in')
-                                    //props.setLogState(true);
+
                                 })
                             } else if (response.status === 422) {
                                 alert('The account does not exist or the password is incorrect');
@@ -102,10 +100,7 @@ function Admin() {
                         <Route path={'/admin/commentsList'} component={CommentsList}/>
                     </Switch>
                 </Router>
-
             </div>
-
-
     )
 }
 

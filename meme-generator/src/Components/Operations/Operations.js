@@ -1,3 +1,9 @@
+// The operation component contains four operations:
+// 1- View the number of views and likes of the picture
+// 2- Download the meme in the current editing state
+// 3- Save the currently edited meme to the web server
+// 4-Like the current meme template after logging in
+
 import React, {useEffect, useState} from 'react';
 import './Operations.css';
 import domToImage from 'dom-to-image';
@@ -6,12 +12,9 @@ import jwtDecode from "jwt-decode";
 import {
     Button,
     Dialog,
-    DialogActions,
     DialogContent,
     DialogTitle,
-    Paper,
     Snackbar,
-    Typography
 } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 import Chart from "../Others/Chart";
@@ -27,8 +30,6 @@ function Alert(props) {
 function Operations(props) {
     const [warning, showWarning] = useState(false);
     const [showChart, setShowChart] = useState(false);
-
-    //whether the user logged now clicked the like button
     const [liked, setLiked] = useState(false);
 
     function checkLiked() {
@@ -48,6 +49,7 @@ function Operations(props) {
         showWarning(false);
         setShowChart(false);
     };
+
     useEffect(() => {
         if (props.logState === false) {
             setLiked(false);
@@ -55,7 +57,6 @@ function Operations(props) {
             checkLiked();
         }
     }, [props.logState, props.currentMeme._id])
-
 
     if (!props.isLoaded) {
         return <div>Loading...</div>;
@@ -73,7 +74,6 @@ function Operations(props) {
                     variant="contained"
                     color='default'
                     onClick={() => {
-                        //alert(props.exportImage.title)
                         domToImage.toBlob(props.exportImage, null).then((blob) => {
                             saveAs(blob, props.savedTitle)
                         })
@@ -100,8 +100,6 @@ function Operations(props) {
                         else {
                             showWarning(true);
                         }
-
-
                     }}>
                     Save
                 </Button>
@@ -136,7 +134,6 @@ function Operations(props) {
                 >
                     like
                 </Button>
-
                 {
                     props.sourceFromWeb ?
                         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={showChart}>
@@ -157,14 +154,11 @@ function Operations(props) {
                         </Dialog> : null
                 }
 
-
                 <Snackbar open={warning} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="warning">
                         You need log in first!
                     </Alert>
                 </Snackbar>
-
-
             </div>
         )
     }

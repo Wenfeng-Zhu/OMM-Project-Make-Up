@@ -5,7 +5,6 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-
 function Warning(props) {
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {

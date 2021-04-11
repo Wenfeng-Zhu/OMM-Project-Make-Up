@@ -20,25 +20,26 @@ function HomePage() {
     const [logState, setLogState] = useState(sessionStorage.getItem('token') != null);
 
     /**Second priority state**/
-        //Whether to display the login pop-up window
+    //Whether to display the login pop-up window
     const [showLogIn, setShowLogIn] = useState(false);
     //Whether to display the registration pop-up window
     const [showRegistration, setShowRegistration] = useState(false)
     //set the user information: email-address, username, password
     const [userInfo, setUserInfo] = useState(initialUserInfo);
-    //
-    const [filter, setFilter] = useState('timestamp');
-
-
-    const [savedTitle, setSavedTitle] = useState('saved Image')
-
+    // the all memes will be displayed
     const [memesList, setMemes] = useState([]);
+    //set the display oder of memesList: time, views, likes, default is time
+    const [filter, setFilter] = useState('timestamp');
+    // set the index of the displaying meme
     const [currentIndex, setIndex] = useState(0);
-    const [error, setError] = useState(null);
 
-
+    /**Three priority status**/
+    //set the file name when the meme is being downloaded
+    const [savedTitle, setSavedTitle] = useState('saved Image')
+    //set the node/DOM element of the displaying image
     const [exportImage, setExportImage] = useState(null);
 
+    //get all memes from web server
     async function loadImagesFromWebServer() {
         fetch('http://localhost:5000/images/'+filter)
             .then(res => res.json())
@@ -49,9 +50,8 @@ function HomePage() {
                 console.log(error)
             })
     }
-
+    //get 100 memes of the most popular memes through api of imgflip
     async function loadImagesFromImgflip() {
-        //alert(filter)
         fetch("https://api.imgflip.com/get_memes", )
             .then(response => response.json())
             .then(result => {
@@ -72,9 +72,6 @@ function HomePage() {
     } else {
         return (
             <div className="HomePage">
-                {/*<header>*/}
-
-                {/*</header>*/}
                 <div className="leftSidebar"/>
                 <main>
                     <MainDisplay
@@ -87,7 +84,6 @@ function HomePage() {
                         memesList={memesList}
                         currentIndex={currentIndex}
                         setIndex={setIndex}
-
                         setExportImage={setExportImage}
                         exportImage={exportImage}
                         setSavedTitle={setSavedTitle}
@@ -128,7 +124,6 @@ function HomePage() {
                     userInfo={userInfo}
                     setUserInfo={setUserInfo}
                 />
-                {/*Dialog of registration*/}
                 <RegistrationDialog
                     showRegistration={showRegistration}
                     setShowRegistration={setShowRegistration}
@@ -138,8 +133,6 @@ function HomePage() {
             </div>
         );
     }
-
-
 }
 
 export default HomePage;

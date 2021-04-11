@@ -55,6 +55,7 @@ function Comments(props) {
     } else {
         return (
             <>
+                {/*Determine whether the displayed picture comes from the website server and then choose whether to display the comment section*/}
                 {(props.sourceFromWeb) ?
                     <div className="CommentsArea">
                         <div className='CommentsList'>
@@ -63,7 +64,6 @@ function Comments(props) {
                                     <p>This meme has not been reviewed yet, come to review it!</p> :
                                     <List>
                                         {
-
                                             commentsList.map((item, index) => {
                                                 return (
                                                     <Paper key={index}>
@@ -75,12 +75,10 @@ function Comments(props) {
                                                             </ListItemAvatar>
                                                             <ListItemText primary={item.username}
                                                                           secondary={item.timestamp}/>
-                                                            {/*<ListItemText>{item.comment}</ListItemText>*/}
 
                                                         </ListItem>
                                                         <ListItem>
                                                             <ListItemText primary={item.comment}/>
-                                                            {/*<ListItemText>{item.comment}</ListItemText>*/}
                                                             <Divider/>
                                                         </ListItem>
                                                         <Divider/>
@@ -92,6 +90,7 @@ function Comments(props) {
                             }
 
                         </div>
+                        {/*Decide whether to open comment permissions based on login status*/}
                         {(!props.logState) ?
                             <Paper className='commentBeforeLogin'>
                                 <p>Log in to add a comment</p>
@@ -99,9 +98,9 @@ function Comments(props) {
                                     variant="contained"
                                     color="default"
                                     onClick={() => {
-                                    props.setShowLogIn(true);
-                                }
-                                }>Log In
+                                        props.setShowLogIn(true);
+                                    }
+                                    }>Log In
                                 </Button>
                             </Paper> :
                             <Paper className='AddNewComment'>
@@ -122,7 +121,6 @@ function Comments(props) {
                                     variant="contained"
                                     color="primary"
                                     size='small'
-                                    //className={classes.button}
                                     endIcon={<SendIcon/>}
                                     onClick={() => {
                                         if (comment === '') {
@@ -196,7 +194,6 @@ function Comments(props) {
             </>
         )
     }
-
 }
 
 export default Comments;

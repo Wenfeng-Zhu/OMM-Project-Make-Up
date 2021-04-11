@@ -14,9 +14,9 @@ import LockIcon from "@material-ui/icons/Lock";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import React, {useState} from "react";
 
-function LogInDialog(props){
+function LogInDialog(props) {
     const [showPassword, handleShowPassword] = useState(false);
-    return(
+    return (
         <Dialog open={props.showLogIn} aria-labelledby="Log-In-Dialog">
             <DialogTitle id="Log-In-Dialog">Log In</DialogTitle>
             <DialogContent>
@@ -74,6 +74,7 @@ function LogInDialog(props){
                     Cancel
                 </Button>
                 <Button onClick={() => {
+                    // A login request containing a username and password occurs through the api
                     fetch('http://localhost:5000/users/login', {
                         method: 'POST',
                         mode: 'cors',
@@ -82,13 +83,12 @@ function LogInDialog(props){
                     }).then(response => {
                         if (response.ok) {
                             return (response.json()).then((json) => {
-                                //setUserInfo({...userInfo,username: json.user.username})
-                                //setLoggedIn(true);
-                                sessionStorage.setItem('token',json.data)
+                                sessionStorage.setItem('token', json.data)
                                 props.setShowLogIn(false);
                                 props.setLogState(true);
                             })
                         } else if (response.status === 422) {
+                            // Incorrect password or account pop-up prompt
                             alert('The account does not exist or the password is incorrect');
                         }
                     }, function (e) {

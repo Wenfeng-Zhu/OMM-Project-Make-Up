@@ -1,6 +1,5 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {CgUserList, IoMdImages} from "react-icons/all";
 import './AdminNav.css'
 import PeopleIcon from '@material-ui/icons/People';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';

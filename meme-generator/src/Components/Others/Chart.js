@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import * as G2 from '@antv/g2';
 
 function Chart(props) {
     useEffect(() => {
         const chart = new G2.Chart({
-            container: 'c1', // 指定图表容器 ID
-            width: 500, // 指定图表宽度
-            height: 300 // 指定图表高度
+            container: 'c1', // Specify chart container ID
+            width: 500, // Specify chart width
+            height: 300 // Specify chart height
         });
         chart.source(props.data);
         chart.interval().position('genre*sold').color('genre');

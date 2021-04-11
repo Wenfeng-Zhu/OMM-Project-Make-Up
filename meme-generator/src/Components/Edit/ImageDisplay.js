@@ -11,8 +11,6 @@ import {Button, TextField} from "@material-ui/core";
 
 function ImageDisplay(props) {
     const exportImage = useRef(null);
-
-
     const [textsParameter_0, setTextsParameter_0] = useState({
         index: 0,
         text: '',
@@ -66,11 +64,12 @@ function ImageDisplay(props) {
             <div className="imageArea">
                 <div className='searchInput'>
                     <Autocomplete
-                        id="free-solo-2-demo"
+                        id="searchInput"
                         disableClearable
                         options={props.memesList}
                         getOptionLabel={(option) => option.name}
-                        onChange={(event,value)=>{
+                        onChange={(event, value) => {
+                            // Apply the index of search results to the display area
                             props.setIndex(props.memesList.indexOf(value));
                         }}
                         renderInput={(params) => (
@@ -79,29 +78,29 @@ function ImageDisplay(props) {
                                 label="Search input"
                                 margin="normal"
                                 variant="outlined"
-                                InputProps={{ ...params.InputProps, type: 'search' }}
+                                InputProps={{...params.InputProps, type: 'search'}}
                             />
                         )}
                     />
                 </div>
                 <div className="scrollBar">
-                    {/*The length of memesList is{memesList.length};*/}
                     <div className='topBar'>
                         <p className="imageTitle">
+                            {/*display the name of the displaying image*/}
                             {props.memesList[props.currentIndex].name}
                         </p>
-
                         <ToggleButtonGroup
                             className='filtering'
                             value={props.filter}
                             exclusive
                             onChange={(event, filtering) => {
+                                // Apply the display order to the display area
                                 if (filtering !== null) {
                                     props.setFilter(filtering);
                                 }
-
                             }}
                         >
+                            {/*The display order of the three pictures: time, number of views, number of likes*/}
                             <ToggleButton value="timestamp" disabled={!props.sourceFromWeb}>
                                 <HistoryIcon/>
                             </ToggleButton>
@@ -118,6 +117,7 @@ function ImageDisplay(props) {
                         {props.memesList.map((item, index) => {
                             return (
                                 <img key={index} className="scrollSingleImage" src={
+                                    // Get the url information of the picture through the current index and display it in the main display area
                                     (props.sourceFromWeb) ? ('http://localhost:5000/upload/' + item.url) : (item.url)
                                 }
                                      alt="Image can not be displayed"
@@ -133,9 +133,9 @@ function ImageDisplay(props) {
                         memesList={props.memesList}
                         sourceFromWeb={props.sourceFromWeb}
                         isLoaded={props.isLoaded}
-                        setDisplayingImage = {props.setDisplayingImage}
+                        setDisplayingImage={props.setDisplayingImage}
                     />
-                    {/*<img className="image" src={(props.sourceFromWeb)?(loadImagesFromWebServer()):(props.memesList[props.currentIndex].url)} alt="Image can not be displayed"/>*/}
+                    {/*Up to four draggable text*/}
                     <Draggable bounds={'parent'}>
                         <p className={"text_0"}
                            style={{

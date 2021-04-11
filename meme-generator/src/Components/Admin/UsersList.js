@@ -8,16 +8,11 @@ const useStyles = makeStyles({
     },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [];
-export default function UsersList(){
+export default function UsersList() {
     const classes = useStyles();
-    const [rows,setRows] = useState([]);
+    const [rows, setRows] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
-    useEffect(()=>{
+    useEffect(() => {
         fetch('http://localhost:5000/users/usersList')
             .then(res => res.json())
             .then(result => {
@@ -26,7 +21,7 @@ export default function UsersList(){
             }, (error) => {
                 console.log(error)
             })
-    },[])
+    }, [])
     if (!isLoaded) {
         return <div>Loading...</div>;
     } else {
@@ -36,7 +31,6 @@ export default function UsersList(){
                     <TableHead>
                         <TableRow>
                             <TableCell>Email</TableCell>
-                            {/*<TableCell align="right">Email</TableCell>*/}
                             <TableCell align="right">Username</TableCell>
                             <TableCell align="right">Password&nbsp;(After encryption)</TableCell>
                         </TableRow>

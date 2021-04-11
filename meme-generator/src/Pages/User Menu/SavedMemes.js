@@ -1,8 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import './SavedMemes.css'
-import {Button, GridList, GridListTile, GridListTileBar, IconButton, makeStyles} from "@material-ui/core";
+import {Button, makeStyles} from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
-import DeleteIcon from '@material-ui/icons/Delete';
 import {Link} from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import domToImage from "dom-to-image";
@@ -67,14 +66,6 @@ function SavedMemes() {
                     })
                 }
             })
-        // .then(res => res.json())
-        // .then(result => {
-        //     setUserMemes(result);
-        //     setIndex(0);
-        //     setIsLoaded(true);
-        // }, (error) => {
-        //     console.log(error)
-        // })
     }, [isLoaded])
 
     if (!isLoaded) {
@@ -101,14 +92,12 @@ function SavedMemes() {
                                 <div className="userScrollImages">
                                     {userMemes.map((item, index) => {
                                         return (
-
                                             <img className="userSingleImage" src={
                                                 'http://localhost:5000/upload/' + item.url
                                             }
                                                  alt="Image can not be displayed"
                                                  onClick={() => setIndex(index)}
                                             />
-
                                         )
                                     })}
                                 </div>
@@ -156,14 +145,11 @@ function SavedMemes() {
                             </div>
                         </>
                     }
-
-
                 </div>
                 <div className="rightSidebar"/>
             </div>
         )
     }
-
 }
 
 export default SavedMemes;

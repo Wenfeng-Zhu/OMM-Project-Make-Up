@@ -1,20 +1,12 @@
 import React, {useRef, useState} from "react";
 import './Header.css';
-import Profile from "../../Pages/User Menu/Profile";
-import SavedMemes from "../../Pages/User Menu/SavedMemes";
 import {IconContext} from "react-icons";
 import jwtDecode from "jwt-decode";
-import LogInDialog from "../Dialogs/LogIn";
-import RegistrationDialog from "../Dialogs/Registration";
 import {Button, ListItemIcon, ListItemText, Menu, MenuItem, withStyles} from "@material-ui/core";
-import * as PropTypes from "prop-types";
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import BurstModeIcon from '@material-ui/icons/BurstMode';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 
 const StyledMenu = withStyles({
@@ -78,7 +70,7 @@ function Header(props) {
                                 <div className="beforeLogged">
                                     <ColorButton
                                         variant="contained"
-                                        color= 'default'
+                                        color='default'
                                         className="logIn" onClick={() => {
                                         props.setShowLogIn(true);
                                     }}>
@@ -154,18 +146,10 @@ function Header(props) {
                                 </div>
                             )
                     }
-
                 </>
-
-                {/*Dialog of the Log-in*/}
-
-
             </div>
         </IconContext.Provider>
-
     )
-
-
 }
 
 export default Header;
