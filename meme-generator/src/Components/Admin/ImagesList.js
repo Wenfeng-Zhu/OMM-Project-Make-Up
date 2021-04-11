@@ -9,28 +9,10 @@ import {
     Toolbar, Tooltip, Typography
 } from "@material-ui/core";
 import * as PropTypes from "prop-types";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import clsx from "clsx";
-
-function createData(name, calories, fat, carbs, protein) {
-    return {name, calories, fat, carbs, protein};
-}
-
-const rows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-];
+import DeleteIcon from '@material-ui/icons/Delete';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -41,7 +23,6 @@ function descendingComparator(a, b, orderBy) {
     }
     return 0;
 }
-
 function getComparator(order, orderBy) {
     return order === 'desc'
         ? (a, b) => descendingComparator(a, b, orderBy)
@@ -59,11 +40,11 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-    {id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)'},
-    {id: 'calories', numeric: true, disablePadding: false, label: 'Calories'},
-    {id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)'},
-    {id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)'},
-    {id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)'},
+    {id: 'name', numeric: false, disablePadding: true, label: 'Image name'},
+    {id: 'owner', numeric: false, disablePadding: true, label: 'Owner'},
+    {id: 'views', numeric: true, disablePadding: false, label: 'Views'},
+    {id: 'likes', numeric: true, disablePadding: false, label: 'Likes'},
+    {id: 'uploadTime', numeric: false, disablePadding: false, label: 'upload time'},
 ];
 
 function EnhancedTableHead(props) {
@@ -139,18 +120,6 @@ const useToolbarStyles = makeStyles((theme) => ({
     },
 }));
 
-class DeleteIcon extends React.Component {
-    render() {
-        return null;
-    }
-}
-
-class FilterListIcon extends React.Component {
-    render() {
-        return null;
-    }
-}
-
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
     const {numSelected} = props;
@@ -167,7 +136,7 @@ const EnhancedTableToolbar = (props) => {
                 </Typography>
             ) : (
                 <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                    Nutrition
+                    All Images in Web-Server
                 </Typography>
             )}
 
@@ -218,8 +187,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ImagesList() {
     const classes = useStyles();
+    const [rows,setRows] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
+    const [orderBy, setOrderBy] = React.useState('');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
@@ -277,113 +248,119 @@ export default function ImagesList() {
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-    return (
-        <div className={classes.root}>
-            <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length}/>
-                <TableContainer>
-                    <Table
-                        className={classes.table}
-                        aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
-                        aria-label="enhanced table"
-                    >
-                        <EnhancedTableHead
-                            classes={classes}
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
-                            onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
-                        />
-                        <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event) => handleClick(event, row.name)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={row.name}
-                                            selected={isItemSelected}
-                                        >
-                                            <TableCell padding="checkbox">
-                                                <Checkbox
-                                                    checked={isItemSelected}
-                                                    inputProps={{'aria-labelledby': labelId}}
-                                                />
-                                            </TableCell>
-                                            <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                {row.name}
-                                            </TableCell>
-                                            <TableCell align="right">{row.calories}</TableCell>
-                                            <TableCell align="right">{row.fat}</TableCell>
-                                            <TableCell align="right">{row.carbs}</TableCell>
-                                            <TableCell align="right">{row.protein}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            {emptyRows > 0 && (
-                                <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
-                                    <TableCell colSpan={6}/>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
+
+    useEffect(()=>{
+        fetch('http://localhost:5000/images/timestamp')
+            .then(res => res.json())
+            .then(result => {
+                setIsLoaded(true);
+                setRows(result);
+            }, (error) => {
+                console.log(error)
+            })
+    },[])
+
+    if (!isLoaded) {
+        return <div>Loading...</div>;
+    } else {
+        return (
+            <div className={classes.root}>
+                <Paper className={classes.paper}>
+                    <EnhancedTableToolbar numSelected={selected.length}/>
+                    <TableContainer>
+                        <Table
+                            className={classes.table}
+                            aria-labelledby="tableTitle"
+                            size={dense ? 'small' : 'medium'}
+                            aria-label="enhanced table"
+                        >
+                            <EnhancedTableHead
+                                classes={classes}
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={rows.length}
+                            />
+                            <TableBody>
+                                {stableSort(rows, getComparator(order, orderBy))
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row, index) => {
+                                        const isItemSelected = isSelected(row.name);
+                                        const labelId = `enhanced-table-checkbox-${index}`;
+
+                                        return (
+                                            <TableRow
+                                                hover
+                                                onClick={(event) => handleClick(event, row.name)}
+                                                role="checkbox"
+                                                aria-checked={isItemSelected}
+                                                tabIndex={-1}
+                                                key={row.name}
+                                                selected={isItemSelected}
+                                            >
+                                                <TableCell padding="checkbox">
+                                                    <Checkbox
+                                                        checked={isItemSelected}
+                                                        inputProps={{'aria-labelledby': labelId}}
+                                                    />
+                                                </TableCell>
+                                                <TableCell component="th" id={labelId} scope="row" padding="none">
+                                                    {row.name}
+                                                </TableCell>
+                                                <TableCell align="left">{row.owner}</TableCell>
+                                                <TableCell align="right">{row.views}</TableCell>
+                                                <TableCell align="right">{row.likes.length}</TableCell>
+                                                <TableCell align="left">{row.timestamp}</TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                {emptyRows > 0 && (
+                                    <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
+                                        <TableCell colSpan={6}/>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10]}
+                        component="div"
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
+                </Paper>
+                <FormControlLabel
+                    control={<Switch checked={dense} onChange={handleChangeDense}/>}
+                    label="Dense padding"
                 />
-            </Paper>
-            <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense}/>}
-                label="Dense padding"
-            />
-            <>
-                <form action="http://localhost:5000/images/public" method="post" encType="multipart/form-data">
-                    <div className="panel-body form-horizontal">
-                        <div className="form-group col-md-12">
-                            <label htmlFor="file" className="col-sm-2 control-label">浏览:</label>
-                            <div className="col-md-10">
-                                <input type="file" className="form-control" name="file" id="file"/>
+                <>
+                    <form action="http://localhost:5000/images/public" method="post" encType="multipart/form-data">
+                        <div className="panel-body form-horizontal">
+                            <div className="form-group col-md-12">
+                                <label htmlFor="file" className="col-sm-2 control-label">Browse:</label>
+                                <div className="col-md-10">
+                                    <input type="file" className="form-control" name="file" id="file"/>
+                                </div>
+                            </div>
+                            <div className="form-group col-md-12">
+                                <div className="col-md-12 text-right">
+                                    <button type="submit" id="login-btn" className="btn btn-success">
+                                        <i className="fa fa-cloud-upload"> Upload Image</i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div className="form-group col-md-12">
-                            <label htmlFor="title" className="col-md-2 control-label">标题:</label>
-                            <div className="col-md-10">
-                                <input type="text" className="form-control" name="title"/>
-                            </div>
-                        </div>
-                        <div className="form-group col-md-12">
-                            <label htmlFor="description" className="col-md-2 control-label">描述:</label>
-                            <div className="col-md-10">
-                                <textarea name="description" rows="2" className="form-control"/>
-                            </div>
-                        </div>
-                        <div className="form-group col-md-12">
-                            <div className="col-md-12 text-right">
-                                <button type="submit" id="login-btn" className="btn btn-success">
-                                    <i className="fa fa-cloud-upload"> 上传图片</i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </>
-        </div>
-);
+                    </form>
+                </>
+            </div>
+        );
+    }
+
 
 }

@@ -2,19 +2,28 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {CgUserList, IoMdImages} from "react-icons/all";
 import './AdminNav.css'
+import PeopleIcon from '@material-ui/icons/People';
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import CommentIcon from '@material-ui/icons/Comment';
 
 const NavData = [
     {
         title: 'Users',
         path: '/admin/usersList',
         className: 'nav-text',
-        icon: <CgUserList/>
+        icon: <PeopleIcon/>
     },
     {
         title: 'Images',
         path: '/admin/imagesList',
         className: 'nav-text',
-        icon: <IoMdImages/>
+        icon: <PhotoLibraryIcon/>
+    },
+    {
+        title: 'Comments',
+        path: '/admin/CommentsList',
+        className: 'nav-text',
+        icon: <CommentIcon/>
     }
 ]
 

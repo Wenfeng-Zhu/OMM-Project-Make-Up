@@ -18,6 +18,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import UsersList from "../../Components/Admin/UsersList";
 import ImagesList from "../../Components/Admin/ImagesList";
 import AdminNav from "../../Components/Admin/AdminNav";
+import CommentsList from "../../Components/Admin/CommentsList";
 
 
 function Admin() {
@@ -98,6 +99,7 @@ function Admin() {
                         <Route exact path={'/admin'} component={null}/>
                         <Route path={'/admin/usersList'} component={UsersList}/>
                         <Route path={'/admin/imagesList'} component={ImagesList}/>
+                        <Route path={'/admin/commentsList'} component={CommentsList}/>
                     </Switch>
                 </Router>
 
