@@ -9,8 +9,10 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import {Button, TextField} from "@material-ui/core";
 
+
 function ImageDisplay(props) {
     const exportImage = useRef(null);
+    const [autoplay, setAutoplay] = useState(false);
     const [textsParameter_0, setTextsParameter_0] = useState({
         index: 0,
         text: '',
@@ -56,6 +58,7 @@ function ImageDisplay(props) {
         }
         props.setExportImage(exportImage.current);
     });
+
 
     if (!props.isLoaded) {
         return <div>Loading...</div>;

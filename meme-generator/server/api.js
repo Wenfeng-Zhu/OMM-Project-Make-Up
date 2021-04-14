@@ -62,16 +62,5 @@ mongoose.connect(mongoURI, {
     console.log("Database connection is successful");
 })
 
-//Intercept requests and give all requests a token
-
-//     .catch(error => {
-//     console.log('Database connection failed: ' + error);
-// })
-
-
-//Middleware for email registration and authentication
-// api.use(function (req, res, next) {
-//
-// })
 
 module.exports = api;

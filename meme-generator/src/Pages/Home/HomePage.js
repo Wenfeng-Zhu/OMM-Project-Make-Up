@@ -125,6 +125,8 @@ function HomePage() {
                     setUserInfo={setUserInfo}
                 />
                 <RegistrationDialog
+                    logState={logState}
+                    setLogState={setLogState}
                     showRegistration={showRegistration}
                     setShowRegistration={setShowRegistration}
                     userInfo={userInfo}

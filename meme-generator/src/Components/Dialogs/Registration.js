@@ -159,7 +159,13 @@ function RegistrationDialog(props) {
                                 body: JSON.stringify(props.userInfo)
                             }).then(function (res) {
                                 if (res.ok) {
-                                    console.log('POST successfully！')
+                                    return (res.json()).then((json) => {
+                                        sessionStorage.setItem('token', json.data)
+                                        props.setShowRegistration(false);
+                                        props.setLogState(true);
+                                    })
+                                    // console.log('POST successfully！');
+                                    // props.showRegistration(false);
                                 } else {
                                     console.log('require is failed！');
                                 }

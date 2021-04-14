@@ -50,10 +50,16 @@ router.post('/registration', async function (req, res, next) {
         if (err) {
             console.log('save error: ' + err);
         } else {
-            console.log('save success \n' + doc);
+            //console.log('save success \n' + doc);
+            verToken.setToken(req.body.email, req.body.username).then(data => {
+                return res.json({
+                    code: 200,
+                    message: 'Log in successfully',
+                    data: data
+                })
+            })
         }
     });
-    res.send('registration is successful');
 })
 
 router.post('/updateUsername', async function (req, res, next) {
