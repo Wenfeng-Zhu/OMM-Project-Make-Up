@@ -37,3 +37,4 @@ When you use your own database, you need to manually create an admin collection 
 { username: "the name you like", password: "your password" }
 
 After you add your administrator account, then you should go the the admin page http://localhost:3000/admin to add some your own images to your database.
+If you add the images successfully, you can find your own images in **server/public/upload folder** and you will have a link document of the image in your local database.
